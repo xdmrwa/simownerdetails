@@ -1,4 +1,4 @@
-                        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -53,6 +53,8 @@
       padding: 10px;
       border: 1px dashed #00ff00;
       min-height: 80px;
+      color: #00ff00;
+      white-space: pre-wrap;
     }
     .whatsapp-float {
       position: fixed;
@@ -83,23 +85,22 @@
   </header>
 
   <div class="grid">
-    <!-- Row 1 -->
-    <div class="tool-button" onclick="openApiModal('simModal')">SIM Owner Details</div>
-    <div class="tool-button" onclick="openApiModal('freshSimModal')">Fresh SIM Database</div>
+    <!-- API Buttons -->
+    <div class="tool-button" onclick="openApiModal('SIM Owner Details')">SIM Owner Details</div>
+    <div class="tool-button" onclick="openApiModal('Fresh SIM Database')">Fresh SIM Database</div>
+    <div class="tool-button" onclick="openApiModal('Family Tree')">Family Tree</div>
 
-    <!-- Row 2 -->
-    <div class="tool-button" onclick="openApiModal('cnicOtherModal')">CNIC Other Number</div>
-    <div class="tool-button" onclick="openApiModal('cnicPicModal')">CNIC Picture</div>
+    <!-- Other Tools -->
+    <div class="tool-button" onclick="openApiModal('CNIC Other Number')">CNIC Other Number</div>
+    <div class="tool-button" onclick="openApiModal('CNIC Picture')">CNIC Picture</div>
 
     <!-- External Links -->
     <div class="tool-button" onclick="window.open('https://resumebuild.com/', '_blank')">CV Builder</div>
     <div class="tool-button" onclick="window.open('https://mytoolstown.com/', '_blank')">All SMS Bombers</div>
-
     <div class="tool-button" onclick="window.open('https://excise.gos.pk/vehicle/', '_blank')">Vehicle Details</div>
     <div class="tool-button" onclick="window.open('https://gamitisa.com/', '_blank')">CNIC Create</div>
-
     <div class="tool-button" onclick="window.open('https://www.iptrackeronline.com', '_blank')">IP Tracker</div>
-    <div class="tool-button" onclick="window.open('https://wa.me/923325364723', '_blank')">Call Data Record (CDR)</div>
+    <div class="tool-button" onclick="window.open('https://wahacker.net', '_blank')">WhatsApp Hack</div>
 
     <!-- Fixed Pakistan CNIC Template -->
     <div class="tool-button" onclick="window.open('https://gamitisa.com/tools/pak-cniccard', '_blank')">Pakistan CNIC Template</div>
@@ -113,7 +114,8 @@
     <div style="background:#000; margin:10% auto; padding:20px; border:2px solid #00ff00; width:80%; max-width:500px;">
       <span style="float:right; cursor:pointer; color:#ff00ff; font-size:20px;" onclick="closeApiModal()">&times;</span>
       <h2 id="modalTitle">API Tool</h2>
-      <input type="text" id="apiInput" placeholder="Enter number e.g., 03001234567" style="width:100%; padding:10px; background:#111; color:#00ff00; border:1px solid #00ff00;">
+      <input type="text" id="apiInput" placeholder="Enter number e.g., 03001234567"
+             style="width:100%; padding:10px; background:#111; color:#00ff00; border:1px solid #00ff00;">
       <button class="tool-button" style="margin-top:10px;" onclick="fetchApiData()">Fetch Details</button>
       <div class="result-area" id="apiResult">Results will appear here</div>
     </div>
@@ -125,7 +127,7 @@
 
     function openApiModal(tool) {
       activeTool = tool;
-      document.getElementById('modalTitle').innerText = tool.replace('Modal','').replace(/([A-Z])/g, ' $1');
+      document.getElementById('modalTitle').innerText = tool;
       document.getElementById('apiModal').style.display = 'block';
     }
 
@@ -137,19 +139,26 @@
 
     function fetchApiData() {
       const number = document.getElementById('apiInput').value.trim();
+      const resultDiv = document.getElementById('apiResult');
+
       if (!number) {
         alert('Please enter a number');
         return;
       }
-      document.getElementById('apiResult').innerHTML = 'Fetching data...';
+
+      resultDiv.innerHTML = 'Fetching data...';
 
       fetch(SIM_API_URL + number)
         .then(res => res.json())
         .then(data => {
-          document.getElementById('apiResult').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+          if (!data || Object.keys(data).length === 0) {
+            resultDiv.innerHTML = "Data not found. Contact us on WhatsApp for paid services.";
+          } else {
+            resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+          }
         })
-        .catch(err => {
-          document.getElementById('apiResult').innerHTML = `Error: ${err}`;
+        .catch(() => {
+          resultDiv.innerHTML = "Error fetching data. Please try again.";
         });
     }
 
@@ -162,4 +171,4 @@
     }
   </script>
 </body>
-                                                             </html>
+</html>
