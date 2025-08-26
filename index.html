@@ -1,175 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sim Owner Details, SIM Information, Sim Database & True Sim Data (2025)</title>
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>CyberTools | Pentest Lab</title> <style> /* Cyberpunk Hacker Theme */ body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; } .container { max-width: 1200px; margin: 0 auto; padding: 20px; } header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid #00ff00; padding-bottom: 10px; } h1 { font-size: 3em; text-shadow: 0 0 10px #00ff00; letter-spacing: 3px; } .subtitle { color: #ff00ff; font-size: 1.2em; } .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 30px; } .tool-button { background: #111; color: #00ff00; border: 2px solid #00ff00; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 16px; border-radius: 0; font-weight: bold; } .tool-button:hover { background: #00ff00; color: #000; box-shadow: 0 0 15px #00ff00; transform: translateY(-3px); } .login-section { margin-top: 40px; text-align: center; padding: 20px; background: rgba(0, 255, 0, 0.1); border: 1px dashed #00ff00; } .login-button { background: #00ff00; color: #000; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; } .login-button:hover { background: #000; color: #00ff00; border: 1px solid #00ff00; } input { background: #111; color: #00ff00; border: 1px solid #00ff00; padding: 10px; margin: 5px; width: 200px; } footer { text-align: center; margin-top: 50px; font-size: 12px; color: #555; border-top: 1px solid #00ff00; padding-top: 20px; } /* Glitch effect */ @keyframes glitch { 0% { text-shadow: 0 0 5px #00ff00; } 25% { text-shadow: 0 0 10px #ff00ff; } 50% { text-shadow: 0 0 5px #00ffff; } 75% { text-shadow: 0 0 10px #ff0000; } 100% { text-shadow: 0 0 5px #00ff00; } } .glitch { animation: glitch 2s infinite; } </style> </head> <body> <div class="container"> <header> <h1 class="glitch">CYBER TOOLS</h1> <p class="subtitle">Pentest & Security Research Lab</p> </header>
 
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="Xs-alpHUhagv3wJtkoC0L4jVSQnOsZgqrD18fkmDymg" />
-
-  <!-- Primary SEO -->
-  <meta name="description" content="Sim Owner Details & SIM Information portal (2025). Learn about Sim Data Check, Sim Database, True Sim Data, Pak Sim Database and privacy-safe ways to verify your own SIM registration. Mobile-friendly, fast and SEO optimized." />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <link rel="canonical" href="https://simowner.info/" />
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-
-  <!-- Geo SEO -->
-  <meta name="geo.region" content="PK" />
-  <meta name="geo.placename" content="Pakistan" />
-  <meta name="geo.position" content="30.3753;69.3451" />
-  <meta name="ICBM" content="30.3753, 69.3451" />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Sim Owner Details & SIM Info – True Sim Data (2025)" />
-  <meta property="og:description" content="Guides on Sim Owner Details, Sim Information, Sim Database, True Sim Data & Pak Sim Database. Learn how to check your own SIM registration safely." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://simowner.info/" />
-  <meta property="og:image" content="https://simowner.info/seo-banner.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Schema Markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Sim Owner Details & SIM Info",
-    "url": "https://simowner.info/",
-    "description": "Sim Owner Details & SIM Information portal. Learn about Sim Data Check, True Sim Data, Sim Database and staying safe from scams.",
-    "publisher": {"@type": "Organization", "name": "Sim Info Portal"},
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://simowner.info/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is Sim Owner Details?",
-        "acceptedAnswer": {"@type": "Answer", "text": "It's an informational term people search to understand SIM registration, number verification, and telecom account ownership for their own numbers. This site provides safe, legal awareness only."}
-      },
-      {
-        "@type": "Question",
-        "name": "Can I check someone else's call records or location?",
-        "acceptedAnswer": {"@type": "Answer", "text": "No. Accessing another person's call data or live location without consent is illegal. We provide privacy-first guidance and point to official self-service channels only."}
-      }
-    ]
-  }
-  </script>
-
-  <style>
-    :root {
-      --brand:#0d6efd; --brand-dark:#0b5ed7; --bg:#f7f9fc; --ink:#222; --card:#ffffff; --muted:#6c757d;
-    }
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--ink);background:linear-gradient(180deg,#eef4ff, #f8f9fb 40%, #ffffff)}
-    header{padding:28px 16px;text-align:center;background:linear-gradient(135deg,#0d6efd,#4f8cff);color:#fff}
-    header h1{margin:0 0 8px;font-size:clamp(22px,3vw,32px)}
-    header p{margin:0;font-size:clamp(14px,2vw,16px);opacity:.95}
-    .wrap{max-width:1080px;margin:auto;padding:24px 16px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0 8px}
-    .btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 16px;border-radius:14px;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(13,110,253,.18);transition:transform .12s ease, background .2s}
-    .btn:hover{background:var(--brand-dark);transform:translateY(-1px)}
-    .card{background:var(--card);border-radius:16px;box-shadow:0 2px 14px rgba(0,0,0,.06);padding:20px}
-    .toc a{display:inline-block;margin:6px 6px 0 0;padding:6px 10px;border-radius:999px;background:#eef4ff;color:#0b5ed7;text-decoration:none;font-size:13px}
-    h2{color:#0b5ed7;margin:22px 0 10px;font-size:22px}
-    h3{color:#0b5ed7;margin:18px 0 8px;font-size:18px}
-    p, li{line-height:1.65}
-    footer{margin-top:30px;padding:22px;text-align:center;color:#fff;background:#111}
-    .whatsapp-fab{position:fixed;right:16px;bottom:18px;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#fff;font-size:26px;box-shadow:0 8px 22px rgba(0,0,0,.18);cursor:pointer}
-    #services{display:none;position:fixed;right:16px;bottom:86px;width:min(92vw,320px);background:#fff;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.2);padding:14px;border:1px solid #e9ecef}
-    #services h4{margin:4px 0 10px;color:#0b5ed7}
-    .services-list li{margin:6px 0}
-    .notice{font-size:13px;color:var(--muted)}
-    .badge{display:inline-block;padding:4px 8px;border-radius:8px;background:#ecf5ff;color:#0b5ed7;font-size:12px;margin-left:6px}
-    .hero-cta{margin-top:10px}
-    .small{font-size:13px;color:#555}
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Sim Owner Details & SIM Information (2025)</h1>
-    <p>Guides on <a href="https://simowner.info">Sim Owner Details</a>, <a href="https://simowner.info">Sim Information</a>, <a href="https://simowner.info">Sim Database</a> & privacy awareness.</p>
-    <div class="wrap hero-cta">
-      <div class="grid">
-        <a class="btn" href="https://simowner.info">📱 Sim Owner Details</a>
-        <a class="btn" href="https://simowner.info">🔎 True Sim Data</a>
-        <a class="btn" href="https://simowner.info">👨‍👩‍👦 Family Tree</a>
-        <a class="btn" href="https://simowner.info">🚗 Vehicle Owner Details</a>
-        <a class="btn" href="https://www.youtube.com/@SimOwnerDetailsPakistan">▶️ YouTube Channel</a>
-        <a class="btn" href="https://tiktok.com/@simownerdetailsapk">🎵 TikTok Channel</a>
-        <a class="btn" href="https://whatsapp.com/channel/0029Vb63bbKFSAtBBhK56Q3b">💬 WhatsApp Channel</a>
-      </div>
-      <p class="small">Direct chat: <a href="https://wa.me/923307593208" style="color:#fff;text-decoration:underline">WhatsApp +92 330 7593208</a></p>
+    <div class="grid">
+        <!-- SIM & CNIC Tools -->
+        <div class="tool-button">SIM Owner Details</div>
+        <div class="tool-button">Fresh SIM Database</div>
+        <div class="tool-button">CNIC Other Number</div>
+        <div class="tool-button">CNIC Picture</div>
+        <div class="tool-button">CNIC Register Number</div>
+        
+        <!-- Location & Tracking -->
+        <div class="tool-button">IP Location Tracker</div>
+        <div class="tool-button">Pinpoint Live Location</div>
+        <div class="tool-button">IMEI Tracing</div>
+        <div class="tool-button">Call Data Record</div>
+        
+        <!-- Family & Vehicles -->
+        <div class="tool-button">Family Tree</div>
+        <div class="tool-button">Vehicle Details</div>
+        
+        <!-- Fake Tools -->
+        <div class="tool-button">Fake Call Software</div>
+        <div class="tool-button">Fake Number Generator</div>
+        
+        <!-- Bombers (Mock) -->
+        <div class="tool-button">SMS Bomber</div>
+        <div class="tool-button">Call Bomber</div>
+        <div class="tool-button">WhatsApp Bomber</div>
+        
+        <!-- Hacking (Mock) -->
+        <div class="tool-button">Phone Hack</div>
+        <div class="tool-button">WhatsApp Hack</div>
+        <div class="tool-button">Create Virus</div>
+        
+        <!-- Documents -->
+        <div class="tool-button">Pakistan CNIC Template</div>
+        <div class="tool-button">NADRA Documents</div>
+        <div class="tool-button">Married Certificate</div>
+        
+        <!-- WhatsApp -->
+        <div class="tool-button">WhatsApp Click-to-Chat</div>
+        <div class="tool-button">Greetings SMS</div>
+        
+        <!-- Other -->
+        <div class="tool-button">CV Creator</div>
+        <div class="tool-button">Report Fake Account</div>
     </div>
-  </header>
 
-  <main class="wrap">
-    <!-- Keyword links -->
-    <section class="card toc" aria-labelledby="toc">
-      <h2 id="toc">Quick Links & Topics</h2>
-      <a href="https://simowner.info">Sim Owner Details</a>
-      <a href="https://simowner.info">Sim Information</a>
-      <a href="https://simowner.info">Sim Owner Data</a>
-      <a href="https://simowner.info">Sim Info</a>
-      <a href="https://simowner.info">Sim Database</a>
-      <a href="https://simowner.info">True Sim Data</a>
-      <a href="https://simowner.info">Fresh Sim Database</a>
-      <a href="https://simowner.info">Pak Sim Data</a>
-    </section>
+    <div class="login-section">
+        <h3>SECURE LOGIN</h3>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password"><br>
+        <button class="login-button">ACCESS DASHBOARD</button>
+    </div>
 
-    <!-- SEO article sections (unchanged but linked to simowner.info) -->
-    <section class="card" id="article-sim-owner-details">
-      <h2><a href="https://simowner.info">Sim Owner Details</a> – Awareness</h2>
-      <p><strong>Sim Owner Details</strong> is searched to confirm mobile registration. Always use official operator portals for safe verification. Avoid fake apps claiming call data or tracking.</p>
-    </section>
-
-    <section class="card" id="article-sim-information">
-      <h2><a href="https://simowner.info">Sim Information</a> – Self Check</h2>
-      <p>Check your <strong>Sim Information</strong> with official USSD codes and apps. Protect your ID and do not share CNIC on random portals.</p>
-    </section>
-
-    <section class="card" id="article-sim-database">
-      <h2><a href="https://simowner.info">Sim Database</a> – Myths vs Reality</h2>
-      <p>There is no public <em>Sim Database</em>. Learn safe ways to check your own SIM status only via telecom operators.</p>
-    </section>
-
-    <section class="card" id="article-true-sim-data">
-      <h2><a href="https://simowner.info">True Sim Data</a> – Verify Yourself</h2>
-      <p><strong>True Sim Data</strong> means operator-provided details for your own number. Only official carrier sources are valid.</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 Sim Owner Info Portal • SEO Optimized & Mobile Friendly • Awareness & Privacy-First</p>
-  </footer>
-
-  <!-- Floating WhatsApp -->
-  <div class="whatsapp-fab" title="Chat on WhatsApp" onclick="toggleServices()">💬</div>
-  <aside id="services">
-    <h4>Need Help? <span class="badge">Support</span></h4>
-    <ul class="services-list">
-      <li>SIM self-verification guidance</li>
-      <li>Account security checklist</li>
-      <li>Scam / fake database awareness</li>
-      <li>Device & number safety tips</li>
-    </ul>
-    <a class="btn" href="https://wa.me/923307593208" style="width:100%;margin-top:8px">Chat on WhatsApp</a>
-    <p class="notice">No illegal data access. Educational help only.</p>
-  </aside>
-
-  <script>
-    function toggleServices(){
-      const box=document.getElementById('services');
-      box.style.display = box.style.display==='block' ? 'none':'block';
-    }
-  </script>
-</body>
-  </html>
+    <footer>
+        <p>⚠️ WARNING: For educational and authorized security research only. Unauthorized use is prohibited.</p>
+        <p>Contact: +92 332 5364723</p>
+    </footer>
+</div>
+</body> </html>
