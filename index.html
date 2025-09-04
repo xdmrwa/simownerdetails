@@ -1,174 +1,304 @@
-<!DOCTYPE html>
-<html lang="en">
+      <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberTools | Pentest Lab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Builder — Form/Table + Style + Excel Export</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
-    body {
-      background-color: #000;
-      color: #00ff00;
-      font-family: 'Courier New', monospace;
-      margin: 0;
-      padding: 20px;
+    :root{
+      --primary:#2563eb;
+      --bg:#0b1020;
+      --card:#121a2b;
+      --text:#e6edf3;
+      --muted:#a0b3c5;
+      --radius:16px;
+      --base:16px;
+      --font:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #00ff00;
-      padding-bottom: 10px;
-    }
-    h1 {
-      font-size: 3em;
-      text-shadow: 0 0 10px #00ff00;
-      letter-spacing: 3px;
-    }
-    .subtitle {
-      color: #ff00ff;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .tool-button {
-      background: #111;
-      color: #00ff00;
-      border: 2px solid #00ff00;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: bold;
-    }
-    .tool-button:hover {
-      background: #00ff00;
-      color: #000;
-      box-shadow: 0 0 15px #00ff00;
-      transform: translateY(-3px);
-    }
-    .result-area {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px dashed #00ff00;
-      min-height: 80px;
-      color: #00ff00;
-      white-space: pre-wrap;
-    }
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      text-align: center;
-      font-size: 30px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .whatsapp-float:hover {
-      background: #128C7E;
-    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0a0f1d,#0c1325 60%,#0f162e);color:var(--text);font:400 var(--base)/1.5 var(--font)}
+    header{position:sticky;top:0;z-index:20;background:rgba(18,26,43,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .brand strong{color:var(--primary)}
+    .layout{max-width:1200px;margin:18px auto;display:grid;grid-template-columns:310px 1fr;gap:16px;padding:0 16px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h2,h3{margin:0 0 10px 0;font-weight:700}
+    h2{font-size:clamp(18px,1.6vw,22px)}
+    h3{font-size:clamp(16px,1.4vw,18px);color:var(--muted)}
+    label{font-size:14px;color:var(--muted)}
+    input,select,textarea,button{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#0c1426;color:var(--text);outline:none}
+    textarea{min-height:70px}
+    button{cursor:pointer;background:var(--primary);border-color:transparent;font-weight:700}
+    button.ghost{background:transparent;color:var(--text);border-color:rgba(255,255,255,.15)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .stack{display:flex;flex-direction:column;gap:8px}
+    .pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.12)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px}
+    .muted{color:var(--muted);font-size:13px}
+    .table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    .table th{font-size:13px;color:var(--muted);text-align:left;padding:6px 8px}
+    .table td{background:#0b1223;border:1px solid rgba(255,255,255,.06);padding:8px;border-right:none;border-left:none}
+    .table tr td:first-child{border-top-left-radius:10px;border-bottom-left-radius:10px;border-left:1px solid rgba(255,255,255,.06)}
+    .table tr td:last-child{border-top-right-radius:10px;border-bottom-right-radius:10px;border-right:1px solid rgba(255,255,255,.06)}
+    .danger{background:#ef4444}
+    .success{background:#16a34a}
+    .info{background:#0ea5e9}
+    .hidden{display:none}
+    .divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0}
   </style>
 </head>
 <body>
   <header>
-    <h1>CYBER TOOLS</h1>
-    <p class="subtitle">Educational Security Research Lab</p>
-  </header>
-
-  <div class="grid">
-    <!-- API Buttons -->
-    <div class="tool-button" onclick="openApiModal('SIM Owner Details')">SIM Owner Details</div>
-    <div class="tool-button" onclick="openApiModal('Fresh SIM Database')">Fresh SIM Database</div>
-    <div class="tool-button" onclick="openApiModal('Family Tree')">Family Tree</div>
-
-    <!-- Other Tools -->
-    <div class="tool-button" onclick="openApiModal('CNIC Other Number')">CNIC Other Number</div>
-    <div class="tool-button" onclick="openApiModal('CNIC Picture')">CNIC Picture</div>
-
-    <!-- External Links -->
-    <div class="tool-button" onclick="window.open('https://resumebuild.com/', '_blank')">CV Builder</div>
-    <div class="tool-button" onclick="window.open('https://mytoolstown.com/', '_blank')">All SMS Bombers</div>
-    <div class="tool-button" onclick="window.open('https://excise.gos.pk/vehicle/', '_blank')">Vehicle Details</div>
-    <div class="tool-button" onclick="window.open('https://gamitisa.com/', '_blank')">CNIC Create</div>
-    <div class="tool-button" onclick="window.open('https://www.iptrackeronline.com', '_blank')">IP Tracker</div>
-    <div class="tool-button" onclick="window.open('https://wahacker.net', '_blank')">WhatsApp Hack</div>
-
-    <!-- Fixed Pakistan CNIC Template -->
-    <div class="tool-button" onclick="window.open('https://gamitisa.com/tools/pak-cniccard', '_blank')">Pakistan CNIC Template</div>
-  </div>
-
-  <!-- WhatsApp Floating Button -->
-  <div class="whatsapp-float" onclick="window.open('https://wa.me/923325364723', '_blank')">📱</div>
-
-  <!-- API Modal -->
-  <div id="apiModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8);">
-    <div style="background:#000; margin:10% auto; padding:20px; border:2px solid #00ff00; width:80%; max-width:500px;">
-      <span style="float:right; cursor:pointer; color:#ff00ff; font-size:20px;" onclick="closeApiModal()">&times;</span>
-      <h2 id="modalTitle">API Tool</h2>
-      <input type="text" id="apiInput" placeholder="Enter number e.g., 03001234567"
-             style="width:100%; padding:10px; background:#111; color:#00ff00; border:1px solid #00ff00;">
-      <button class="tool-button" style="margin-top:10px;" onclick="fetchApiData()">Fetch Details</button>
-      <div class="result-area" id="apiResult">Results will appear here</div>
+    <div class="wrap">
+      <div class="brand">📊 <strong>Data Builder</strong> — No‑code mini studio</div>
+      <div class="pill">Auto save (Local browser storage)</div>
     </div>
+  </header>  <main class="layout">
+    <section class="card" id="sidebar">
+      <h2>Create Schema (Columns)</h2>
+      <div class="stack">
+        <label>Column name</label>
+        <input id="colName" placeholder="Example: Name, Amount, Date" />
+        <label>Type</label>
+        <select id="colType">
+          <option value="text">Text</option>
+          <option value="number">Number</option>
+          <option value="date">Date</option>
+          <option value="select">Select (Options)</option>
+          <option value="boolean">Yes/No</option>
+        </select>
+        <div id="optionsWrap" class="hidden">
+          <label>Options (comma separated)</label>
+          <input id="colOptions" placeholder="Example: Pending, Done, Cancelled" />
+        </div>
+        <button id="addColBtn">➕ Add Column</button>
+        <div class="muted">Current columns: <span id="schemaCount">0</span></div>
+        <div class="divider"></div>
+      </div><h2>Style Creator</h2>
+  <div class="stack">
+    <label>Primary Color</label>
+    <input type="color" id="primaryColor" value="#2563eb" />
+    <label>Radius</label>
+    <input type="range" id="radius" min="6" max="26" value="16" />
+    <label>Base font size (px)</label>
+    <input type="number" id="base" min="12" max="20" value="16" />
+    <label>Font family</label>
+    <select id="font">
+      <option value="system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif">System</option>
+      <option value="'Inter', system-ui, Arial">Inter</option>
+      <option value="Tahoma, Arial, sans-serif">Tahoma</option>
+    </select>
   </div>
+  <div class="divider"></div>
 
-  <script>
-    const SIM_API_URL = "https://app-api.callerid.pk/api/api_sims/api.php?number=";
-    let activeTool = "";
+  <h2>Import / Export</h2>
+  <div class="toolbar">
+    <button id="exportCSV">Export CSV</button>
+    <button id="exportXLSX">Export Excel</button>
+    <button id="exportJSON">Export JSON</button>
+  </div>
+  <div class="toolbar">
+    <input type="file" id="importJSON" accept="application/json" />
+    <button class="info" id="clearAll">🔄 New Project</button>
+  </div>
+</section>
 
-    function openApiModal(tool) {
-      activeTool = tool;
-      document.getElementById('modalTitle').innerText = tool;
-      document.getElementById('apiModal').style.display = 'block';
-    }
+<section class="card">
+  <h2>Data Entry Form</h2>
+  <form id="dataForm" class="stack"></form>
+  <div class="toolbar">
+    <button class="success" id="addRow">➕ Add Record</button>
+    <button class="ghost" id="printView">🖨️ Print / PDF</button>
+  </div>
+  <div class="divider"></div>
 
-    function closeApiModal() {
-      document.getElementById('apiModal').style.display = 'none';
-      document.getElementById('apiInput').value = '';
-      document.getElementById('apiResult').innerHTML = 'Results will appear here';
-    }
+  <h2>Records</h2>
+  <div class="muted">Double click any cell to edit directly.</div>
+  <table class="table" id="dataTable"></table>
+</section>
 
-    function fetchApiData() {
-      const number = document.getElementById('apiInput').value.trim();
-      const resultDiv = document.getElementById('apiResult');
+  </main>  <style id="userCss"></style>  <script>
+    let schema = JSON.parse(localStorage.getItem('db_schema') || '[]');
+    let data = JSON.parse(localStorage.getItem('db_data') || '[]');
+    const el = id => document.getElementById(id);
+    const save = () => {
+      localStorage.setItem('db_schema', JSON.stringify(schema));
+      localStorage.setItem('db_data', JSON.stringify(data));
+      el('schemaCount').textContent = schema.length;
+    };
 
-      if (!number) {
-        alert('Please enter a number');
+    function renderForm(){
+      const form = el('dataForm');
+      form.innerHTML = '';
+      if(schema.length === 0){
+        const hint = document.createElement('div');
+        hint.className = 'muted';
+        hint.textContent = 'First create columns on the left, then form will appear here.';
+        form.appendChild(hint);
         return;
       }
-
-      resultDiv.innerHTML = 'Fetching data...';
-
-      fetch(SIM_API_URL + number)
-        .then(res => res.json())
-        .then(data => {
-          if (!data || Object.keys(data).length === 0) {
-            resultDiv.innerHTML = "Data not found. Contact us on WhatsApp for paid services.";
-          } else {
-            resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-          }
-        })
-        .catch(() => {
-          resultDiv.innerHTML = "Error fetching data. Please try again.";
-        });
+      schema.forEach(col => {
+        const wrap = document.createElement('div');
+        wrap.className = 'stack';
+        const label = document.createElement('label');
+        label.textContent = col.name + ' (' + col.type + ')';
+        wrap.appendChild(label);
+        let input;
+        switch(col.type){
+          case 'number': input = document.createElement('input'); input.type = 'number'; break;
+          case 'date': input = document.createElement('input'); input.type = 'date'; break;
+          case 'select':
+            input = document.createElement('select');
+            (col.options||[]).forEach(opt=>{
+              const o=document.createElement('option');o.value=o.textContent=opt.trim();input.appendChild(o);
+            });
+            break;
+          case 'boolean':
+            input = document.createElement('select');
+            ['Yes','No'].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;input.appendChild(o)});
+            break;
+          default:
+            input = document.createElement('input'); input.type = 'text';
+        }
+        input.name = col.name;
+        wrap.appendChild(input);
+        form.appendChild(wrap);
+      });
     }
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      const modal = document.getElementById('apiModal');
-      if (event.target === modal) {
-        closeApiModal();
+    function renderTable(){
+      const table = el('dataTable');
+      table.innerHTML = '';
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      schema.forEach(col=>{
+        const th=document.createElement('th'); th.textContent=col.name; hr.appendChild(th);
+      });
+      const thAct = document.createElement('th'); thAct.textContent='Actions'; hr.appendChild(thAct);
+      thead.appendChild(hr); table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      data.forEach((row, idx)=>{
+        const tr=document.createElement('tr');
+        schema.forEach(col=>{
+          const td=document.createElement('td');
+          td.contentEditable = true;
+          td.dataset.col = col.name;
+          td.dataset.index = idx;
+          td.textContent = row[col.name] ?? '';
+          td.addEventListener('blur', e=>{
+            const i = +e.target.dataset.index;
+            const c = e.target.dataset.col;
+            data[i][c] = e.target.textContent;
+            save();
+          });
+          tr.appendChild(td);
+        });
+        const tdAct=document.createElement('td');
+        const delBtn=document.createElement('button'); delBtn.textContent='Delete'; delBtn.className='danger';
+        delBtn.onclick=()=>{data.splice(idx,1); save(); renderTable();};
+        tdAct.appendChild(delBtn);
+        tr.appendChild(tdAct);
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+    }
+
+    function addColumn(){
+      const name = el('colName').value.trim();
+      const type = el('colType').value;
+      if(!name){ alert('Column name is required'); return; }
+      let col = {name, type};
+      if(type==='select'){
+        const opts = el('colOptions').value.split(',').map(s=>s.trim()).filter(Boolean);
+        col.options = opts;
+      }
+      schema.push(col);
+      el('colName').value=''; el('colOptions').value=''; el('colType').value='text'; el('optionsWrap').classList.add('hidden');
+      save(); renderForm(); renderTable();
+    }
+
+    el('colType').addEventListener('change', () => {
+      el('optionsWrap').classList.toggle('hidden', el('colType').value !== 'select');
+    });
+    el('addColBtn').addEventListener('click', addColumn);
+
+    el('addRow').addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(schema.length===0){ alert('Add columns first'); return; }
+      const form = el('dataForm');
+      const row = {};
+      schema.forEach(col=>{
+        const input = form.querySelector(`[name="${CSS.escape(col.name)}"]`);
+        row[col.name] = input ? input.value : '';
+      });
+      data.push(row);
+      save(); renderTable();
+      form.reset();
+    });
+
+    function exportCSV(){
+      if(schema.length===0){ alert('No columns'); return; }
+      const cols = schema.map(c=>c.name);
+      const lines = [cols.map(csvCell).join(',')];
+      data.forEach(r=>{
+        const line = cols.map(c=>csvCell(r[c] ?? ''));
+        lines.push(line.join(','));
+      });
+      const blob = new Blob(["\ufeff"+lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+      download(blob, 'data.csv');
+    }
+    function csvCell(v){
+      const s = String(v).replace(/"/g,'""');
+      return '"'+s+'"';
+    }
+
+    function exportXLSX(){
+      try{
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Data');
+        XLSX.writeFile(wb, 'data.xlsx');
+      }catch(e){
+        alert('XLSX library not loaded. Use CSV export instead.');
       }
     }
-  </script>
-</body>
-</html>
+
+    function exportJSON(){
+      const blob = new Blob([JSON.stringify({schema, data}, null, 2)], {type:'application/json'});
+      download(blob, 'project.json');
+    }
+    el('importJSON').addEventListener('change', async (e)=>{
+      const file = e.target.files[0]; if(!file) return;
+      const text = await file.text();
+      try{
+        const obj = JSON.parse(text);
+        schema = Array.isArray(obj.schema) ? obj.schema : [];
+        data = Array.isArray(obj.data) ? obj.data : [];
+        save(); renderForm(); renderTable();
+      }catch(err){ alert('Invalid JSON'); }
+      e.target.value='';
+    });
+
+    el('printView').addEventListener('click', ()=>{ window.print(); });
+
+    function download(blob, filename){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    }
+
+    el('clearAll').addEventListener('click', ()=>{
+      if(confirm('Start new project? Current data will be erased.')){
+        schema=[]; data=[]; save(); renderForm(); renderTable();
+      }
+    });
+
+    el('exportCSV').addEventListener('click', exportCSV);
+    el('exportXLSX').addEventListener('click', exportXLSX);
+    el('exportJSON').addEventListener('click', exportJSON);
+
+    save(); renderForm(); renderTable();
+  </script></body>
+        </html>
