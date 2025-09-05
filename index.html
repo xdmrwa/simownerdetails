@@ -1,54 +1,37 @@
-                <!doctype html>
-
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Professional Data Entry — Sheet & Export Tool</title>
+  <title>Professional Data Entry — Customizable Sheet & Math Tools</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#0f1724; --panel:#061025; --card:#071229; --accent:#06b6d4; --accent-2:#7c3aed; --muted:#94a3b8; --glass:rgba(255,255,255,0.03);
-      --surface:#071026; --success:#10b981; --danger:#ef4444;
-    }
-    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    body{margin:0;background:linear-gradient(180deg,#041022 0%,#02101a 100%);color:#e6eef6;padding:28px}
+    :root{--bg:#041022;--panel:#071229;--card:#081428;--accent:#06b6d4;--accent-2:#7c3aed;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    body{margin:0;background:linear-gradient(180deg,#02101a 0%,#041022 100%);color:#e6eef6;padding:26px}
     .wrap{max-width:1200px;margin:0 auto}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    header{display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
+    .logo{width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
     h1{margin:0;font-size:20px;font-weight:700}
-    p.lead{margin:0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 420px;gap:20px;margin-top:20px}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
-
-label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
-input[type=file]{padding:6px}
-button{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:9px 14px;border-radius:10px;color:white;cursor:pointer;font-weight:600}
-.muted{color:var(--muted)}
-
-.toolbar{display:flex;gap:8px;margin-bottom:10px}
-.preview{min-height:220px;border-radius:10px;padding:12px;background:rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02);overflow:auto}
-
-table{width:100%;border-collapse:collapse;font-size:14px}
-thead th{position:sticky;top:0;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);z-index:2;padding:10px;text-align:left}
-th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02)}
-tbody tr:nth-child(even){background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
-img.thumb{max-height:40px;border-radius:6px}
-
-.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.right-note{font-size:13px;color:var(--muted)}
-.row-actions{display:flex;gap:6px}
-
-.calc-panel{display:flex;gap:8px;align-items:center;margin-top:10px}
-.pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:13px}
-
-.footer{margin-top:16px;color:var(--muted);font-size:13px}
-
-/* Responsive */
-@media (max-width:980px){.grid{grid-template-columns:1fr}}
-
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:18px;margin-top:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
+    button{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:9px 14px;border-radius:10px;color:white;cursor:pointer;font-weight:600}
+    .toolbar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+    .preview{min-height:160px;border-radius:10px;padding:12px;background:rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02);overflow:auto}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    thead th{position:sticky;top:0;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);z-index:2;padding:10px;text-align:left}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);vertical-align:middle}
+    tbody tr:nth-child(even){background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+    img.thumb{max-height:40px;border-radius:6px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+    .calc-panel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;margin-top:12px}
+    .muted{color:var(--muted)}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:13px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -57,156 +40,176 @@ img.thumb{max-height:40px;border-radius:6px}
       <div class="brand">
         <div class="logo">D</div>
         <div>
-          <h1>Professional Data Entry</h1>
-          <p class="lead">Collect, style, calculate and export — designed for fast, expert-like data entry.</p>
+          <h1>Pro Data Entry — Custom Sheet</h1>
+          <p class="lead">Start with an empty sheet. Style headings & text, run simple math (optional), export easily.</p>
         </div>
       </div>
-      <div style="text-align:right">
-        <div class="pill">Quick: All client-side — no server required</div>
-      </div>
-    </header><div class="grid">
-  <section class="card">
-    <h3 style="margin:0 0 10px 0">1) Enter your data</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div>
-        <label>Name / Text</label>
-        <input id="txtName" placeholder="e.g. John Doe" />
-      </div>
-      <div>
-        <label>Number</label>
-        <input id="numAge" type="number" placeholder="Numeric value" />
-      </div>
-      <div>
-        <label>Date / Time</label>
-        <input id="dt" type="datetime-local" />
-      </div>
-      <div>
-        <label>Choice / Category</label>
-        <select id="sel">
-          <option value="A">Option A</option>
-          <option value="B">Option B</option>
-          <option value="C">Option C</option>
-        </select>
-      </div>
-      <div style="grid-column:1 / -1">
-        <label>Details / Notes</label>
-        <textarea id="notes" rows="3" placeholder="Any notes..."></textarea>
-      </div>
-      <div>
-        <label>Image (preview)</label>
-        <input id="imgFile" type="file" accept="image/*" />
-      </div>
-      <div>
-        <label>Tag / Label</label>
-        <input id="tag" placeholder="Optional label e.g. "Project X"" />
-      </div>
+      <div class="pill">Offline • Simple • Professional</div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h3 style="margin:0 0 10px 0">1) Data entry</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label>Text / Name</label>
+            <input id="txtName" placeholder="e.g. John Doe" />
+          </div>
+          <div>
+            <label>Number</label>
+            <input id="numVal" type="number" placeholder="numeric value (optional)" />
+          </div>
+          <div>
+            <label>Date / Time</label>
+            <input id="dt" type="datetime-local" />
+          </div>
+          <div>
+            <label>Choice</label>
+            <select id="sel">
+              <option value="">— select —</option>
+              <option value="A">Option A</option>
+              <option value="B">Option B</option>
+              <option value="C">Option C</option>
+            </select>
+          </div>
+          <div style="grid-column:1 / -1">
+            <label>Notes</label>
+            <textarea id="notes" rows="3" placeholder="details..."></textarea>
+          </div>
+          <div>
+            <label>Image (optional)</label>
+            <input id="imgFile" type="file" accept="image/*" />
+          </div>
+          <div>
+            <label>Tag / Label</label>
+            <input id="tag" placeholder="optional tag" />
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+          <button id="btnAdd">Add Row</button>
+          <button id="btnClear">Clear</button>
+          <div class="muted">Sheet starts empty — add rows manually.</div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.02)" />
+
+        <h3 style="margin:0 0 10px 0">2) Sheet & calculations (optional)</h3>
+        <div id="tableWrap" class="preview">
+          <table id="dataTable">
+            <thead>
+              <tr id="headerRow"><th>#</th><th>Name</th><th>Number</th><th>Date/Time</th><th>Choice</th><th>Notes</th><th>Tag</th><th>Image</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr><td colspan="9" id="summaryRow" style="text-align:right;color:var(--muted);padding:12px">0 rows — ready.</td></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="calc-panel">
+          <div>
+            <label>Numeric column</label>
+            <select id="numericColumn"><option value="num">Number</option></select>
+          </div>
+          <div>
+            <label>Operation (row-wise)</label>
+            <select id="operator">
+              <option value="add">+ Add</option>
+              <option value="sub">- Subtract</option>
+              <option value="mul">× Multiply</option>
+              <option value="div">÷ Divide</option>
+            </select>
+          </div>
+          <div>
+            <label>Operand (number)</label>
+            <input id="operand" type="number" placeholder="e.g. 10" />
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <button id="btnApplyOp">Apply operation to rows (creates/updates column)</button>
+          <input id="newColName" placeholder="New column name (optional)" style="width:220px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)" />
+          <div class="muted">If new column name left empty, 'Number' will be updated in place.</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+          <button id="btnSum">Sum</button>
+          <button id="btnAvg">Average</button>
+          <button id="btnMin">Min</button>
+          <button id="btnMax">Max</button>
+          <div id="calcResult" style="margin-left:auto;color:var(--accent);font-weight:700"></div>
+        </div>
+
+        <div class="controls">
+          <button id="btnExportCSV">Download CSV</button>
+          <button id="btnExportJSON">Download JSON</button>
+          <button id="btnExportXLS">Download Excel (.xls)</button>
+          <button id="btnDownloadHTML">Download Snapshot (HTML)</button>
+          <button id="btnImportCSV">Import CSV</button>
+          <input id="csvFile" type="file" accept="text/csv" style="display:none" />
+        </div>
+
+        <div class="muted" style="margin-top:10px">You can choose to run math or leave it — everything is optional. Exports work with current sheet state.</div>
+      </section>
+
+      <aside class="card">
+        <h3 style="margin-top:0">3) Header & styling (click to apply)</h3>
+        <div class="toolbar">
+          <button data-cmd="bold">B</button>
+          <button data-cmd="italic">I</button>
+          <button data-cmd="underline">U</button>
+          <button data-cmd="h1">H1</button>
+          <button data-cmd="p">P</button>
+          <label style="display:flex;align-items:center;gap:6px"><span class="muted">Text color</span><input id="textColor" type="color" value="#ffffff" style="width:44px;height:34px;border-radius:6px;padding:2px;"/></label>
+          <label style="display:flex;align-items:center;gap:6px"><span class="muted">BG color</span><input id="bgColor" type="color" value="#02101a" style="width:44px;height:34px;border-radius:6px;padding:2px;"/></label>
+          <label style="display:flex;align-items:center;gap:6px"><span class="muted">Font size</span>
+            <select id="fontSize">
+              <option value="16">16px</option>
+              <option value="18" selected>18px</option>
+              <option value="20">20px</option>
+              <option value="24">24px</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="editor" class="preview" contenteditable="true">Type a title or header here. Select it and use the buttons/controls above to style. When done, click 'Download Snapshot'.</div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnExportEditorHTML">Download Header HTML</button>
+          <button id="btnCopyHTML">Copy Header HTML</button>
+          <button id="applyHeaderToTable">Apply header styling to table header</button>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.02)" />
+        <div class="muted">Make headings bold, change colors and font size to make the sheet look professional. All changes are client-side.</div>
+      </aside>
     </div>
+  </div>
 
-    <div class="actions">
-      <button id="btnAdd">Add to Sheet</button>
-      <button id="btnClear">Clear</button>
-      <div class="right-note">Tip: Add multiple rows to build your sheet. Use the editor on the right to create professional headers/notes.</div>
-    </div>
-
-    <hr style="margin:14px 0;border:none;border-top:1px solid rgba(255,255,255,0.02)" />
-
-    <h3 style="margin:0 0 10px 0">2) Sheet (editable & calculations)</h3>
-    <div id="tableWrap" class="preview">
-      <table id="dataTable">
-        <thead>
-          <tr><th>#</th><th>Name</th><th>Number</th><th>Date/Time</th><th>Choice</th><th>Notes</th><th>Tag</th><th>Image</th><th>Actions</th></tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr><td colspan="9" id="summaryRow" style="text-align:right;color:var(--muted);padding:12px">No calculations yet.</td></tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <div class="calc-panel">
-      <label class="muted">Select numeric column:</label>
-      <select id="numericColumn">
-        <option value="num">Number</option>
-      </select>
-      <button id="btnSum">Sum</button>
-      <button id="btnAvg">Average</button>
-      <button id="btnProduct">Product</button>
-      <button id="btnClearCalc">Clear Calc</button>
-      <div id="calcResult" style="margin-left:auto;color:var(--accent);font-weight:700"></div>
-    </div>
-
-    <div class="controls">
-      <button id="btnExportCSV">Download CSV</button>
-      <button id="btnExportJSON">Download JSON</button>
-      <button id="btnExportXLS">Download Excel (.xls)</button>
-      <button id="btnDownloadHTML">Download Snapshot (HTML)</button>
-      <button id="btnImportCSV">Import CSV</button>
-      <input id="csvFile" type="file" accept="text/csv" style="display:none" />
-    </div>
-
-    <div class="footer">Works offline. CSV opens in Excel/Sheets. Images are embedded as data-URLs in the HTML snapshot.</div>
-  </section>
-
-  <aside class="card">
-    <h3 style="margin-top:0">Live content editor — make a professional sheet</h3>
-    <div class="toolbar">
-      <button data-cmd="bold">B</button>
-      <button data-cmd="italic">I</button>
-      <button data-cmd="underline">U</button>
-      <button data-cmd="h1">H1</button>
-      <button data-cmd="p">P</button>
-    </div>
-    <div id="editor" class="preview" contenteditable="true">Insert title, instructions, or a report header here. Style it and download with the button below.</div>
-
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button id="btnExportEditorHTML">Download Header HTML</button>
-      <button id="btnCopyHTML">Copy Header HTML</button>
-    </div>
-
-    <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.02)" />
-
-    <h4 style="margin:6px 0">Load / Edit existing HTML</h4>
-    <div class="file-input">
-      <input id="loadHTMLFile" type="file" accept="text/html" />
-      <div class="right-note">Load a template, edit in the editor, then export snapshot.</div>
-    </div>
-
-    <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.02)" />
-
-    <h4 style="margin:6px 0">Quick calculator</h4>
-    <div class="muted">Use the sheet calculator to compute sums, averages or product across a numeric column.</div>
-  </aside>
-</div>
-
-  </div>  <script>
-    // In-memory rows
+  <script>
     const rows = [];
     const dataTableBody = document.querySelector('#dataTable tbody');
-    const numericSelect = document.getElementById('numericColumn');
+    const headerRow = document.getElementById('headerRow');
 
-    // image reader
     function readImageAsDataURL(file){
-      return new Promise((res,rej)=>{
-        if(!file) return res('');
-        const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file);
-      })
+      return new Promise((res,rej)=>{ if(!file) return res(''); const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file); })
     }
 
-    // Add row
+    function escapeHtml(s=''){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') }
+
     async function addRowFromForm(){
       const name=document.getElementById('txtName').value.trim();
-      const num=document.getElementById('numAge').value;
+      const num=document.getElementById('numVal').value;
       const dt=document.getElementById('dt').value;
       const sel=document.getElementById('sel').value;
       const notes=document.getElementById('notes').value;
       const tag=document.getElementById('tag').value;
       const inputFile=document.getElementById('imgFile');
       const img = inputFile.files[0] ? await readImageAsDataURL(inputFile.files[0]) : '';
-      const row={name,num: num===''? '' : Number(num),dt,sel,notes,tag,img};
-      rows.push(row); renderTable(); updateNumericColumns();
+      const row={name,num: num === '' ? '' : Number(num),dt,sel,notes,tag,img};
+      rows.push(row); renderTable(); updateSummary();
     }
-
-    function escapeHtml(s=''){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') }
 
     function renderTable(){
       dataTableBody.innerHTML='';
@@ -221,44 +224,27 @@ img.thumb{max-height:40px;border-radius:6px}
           <td contenteditable='true' data-key='notes'>${escapeHtml(r.notes)}</td>\
           <td contenteditable='true' data-key='tag'>${escapeHtml(r.tag)}</td>\
           <td>${r.img ? `<img src="${r.img}" class="thumb" />` : ''}</td>\
-          <td class='row-actions'><button data-action='remove' data-i='${i}'>Delete</button></td>`;
+          <td><button data-action='remove' data-i='${i}'>Delete</button></td>`;
         dataTableBody.appendChild(tr);
       });
-      document.getElementById('summaryRow').innerText = rows.length ? `${rows.length} rows — ready to calculate.` : 'No calculations yet.';
+      document.getElementById('summaryRow').innerText = rows.length ? `${rows.length} rows — ready.` : '0 rows — ready.';
     }
 
-    // Form actions
     document.getElementById('btnAdd').addEventListener('click', async ()=>{ await addRowFromForm(); clearForm(); });
     document.getElementById('btnClear').addEventListener('click', clearForm);
-    function clearForm(){ document.getElementById('txtName').value='';document.getElementById('numAge').value='';document.getElementById('dt').value='';document.getElementById('notes').value='';document.getElementById('imgFile').value=null;document.getElementById('tag').value=''}
+    function clearForm(){ document.getElementById('txtName').value=''; document.getElementById('numVal').value=''; document.getElementById('dt').value=''; document.getElementById('sel').value=''; document.getElementById('notes').value=''; document.getElementById('imgFile').value=null; document.getElementById('tag').value=''; }
 
-    // Row delete
-    dataTableBody.addEventListener('click', (e)=>{
-      const btn=e.target.closest('button'); if(!btn) return;
-      if(btn.dataset.action==='remove'){ const i=+btn.dataset.i; rows.splice(i,1); renderTable(); updateNumericColumns(); }
-    });
+    dataTableBody.addEventListener('click', (e)=>{ const btn=e.target.closest('button'); if(!btn) return; if(btn.dataset.action==='remove'){ const i=+btn.dataset.i; rows.splice(i,1); renderTable(); updateSummary(); } });
 
-    // Save edits in table to rows object when user changes contenteditable cells
     dataTableBody.addEventListener('input', (e)=>{
-      const td = e.target.closest('td'); if(!td) return; const tr = td.parentElement; const idx = Array.from(dataTableBody.children).indexOf(tr);
-      const key = e.target.dataset.key; if(!key) return; let val = e.target.innerText;
-      if(key==='num'){ val = val.trim() === '' ? '' : Number(val); }
-      rows[idx][key]=val;
+      const td = e.target.closest('td'); if(!td) return; const tr = td.parentElement; const idx = Array.from(dataTableBody.children).indexOf(tr); const key = e.target.dataset.key; if(!key) return; let val = e.target.innerText; if(key==='num'){ val = val.trim() === '' ? '' : Number(val); } rows[idx][key]=val; updateSummary();
     });
 
-    // Exports / downloads
+    // Export / Download
     function download(filename, content, mime='text/csv'){ const blob=new Blob([content],{type:mime}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
 
-    function tableToCSV(){
-      const header=['#','Name','Number','DateTime','Choice','Notes','Tag','ImageDataURL'];
-      const lines=[header.join(',')];
-      rows.forEach((r,i)=>{
-        const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
-        lines.push([i+1,esc(r.name),esc(r.num),esc(r.dt),esc(r.sel),esc(r.notes),esc(r.tag),esc(r.img)].join(','));
-      });
-      return lines.join('
-');
-    }
+    function tableToCSV(){ const header=['#','Name','Number','DateTime','Choice','Notes','Tag','ImageDataURL']; const lines=[header.join(',')]; rows.forEach((r,i)=>{ const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`; lines.push([i+1,esc(r.name),esc(r.num),esc(r.dt),esc(r.sel),esc(r.notes),esc(r.tag),esc(r.img)].join(',')); }); return lines.join('
+'); }
 
     document.getElementById('btnExportCSV').addEventListener('click', ()=>{ const csv=tableToCSV(); download('sheet.csv',csv,'text/csv'); });
     document.getElementById('btnExportJSON').addEventListener('click', ()=>{ const json=JSON.stringify(rows,null,2); download('sheet.json',json,'application/json'); });
@@ -271,62 +257,75 @@ img.thumb{max-height:40px;border-radius:6px}
       download('sheet-snapshot.html',full,'text/html');
     });
 
-    // Import CSV to rows
+    // CSV import
     document.getElementById('btnImportCSV').addEventListener('click', ()=>document.getElementById('csvFile').click());
-    document.getElementById('csvFile').addEventListener('change', async (e)=>{
-      const f=e.target.files[0]; if(!f) return; const txt=await f.text(); parseCSVToRows(txt); renderTable(); updateNumericColumns();
-    });
-
-    function parseCSVToRows(csv){
-      try{
-        const lines=csv.split(/
+    document.getElementById('csvFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const txt=await f.text(); parseCSVToRows(txt); renderTable(); updateSummary(); });
+    function parseCSVToRows(csv){ try{ const lines=csv.split(/
 ?
-/).filter(Boolean);
-        const dataLines=lines.slice(1); // skip header
-        rows.length=0;
-        dataLines.forEach(line=>{
-          const parts = line.match(/("[^"]*"|[^,]+)/g) || [];
-          const clean = parts.map(p=>p.replace(/^"|"$/g,'').replace(/""/g,'"'));
-          const [,name,num,dt,sel,notes,tag,img] = clean;
-          rows.push({name,num:num===''? '': Number(num),dt,sel,notes,tag,img});
-        });
-      }catch(e){ alert('CSV parse failed: '+e.message) }
-    }
+/).filter(Boolean); const dataLines=lines.slice(1); rows.length=0; dataLines.forEach(line=>{ const parts = line.match(/("[^"]*"|[^,]+)/g) || []; const clean = parts.map(p=>p.replace(/^"|"$/g,'').replace(/""/g,'"')); const [,name,num,dt,sel,notes,tag,img] = clean; rows.push({name,num:num===''? '': Number(num),dt,sel,notes,tag,img}); }); }catch(e){ alert('CSV parse failed: '+e.message) } }
 
-    // Editor controls
-    document.querySelectorAll('.toolbar button').forEach(b=>{
-      b.addEventListener('click', ()=>{
-        const cmd=b.dataset.cmd;
-        if(cmd==='h1') document.execCommand('formatBlock', false, 'h1');
-        else if(cmd==='p') document.execCommand('formatBlock', false, 'p');
-        else document.execCommand(cmd,false,null);
+    // Editor styling
+    document.querySelectorAll('.toolbar button[data-cmd]').forEach(b=>{ b.addEventListener('click', ()=>{ const cmd=b.dataset.cmd; if(cmd==='h1') document.execCommand('formatBlock', false, 'h1'); else if(cmd==='p') document.execCommand('formatBlock', false, 'p'); else document.execCommand(cmd,false,null); }); });
+    document.getElementById('textColor').addEventListener('input', (e)=>{ document.getElementById('editor').style.color = e.target.value; });
+    document.getElementById('bgColor').addEventListener('input', (e)=>{ document.getElementById('editor').style.background = e.target.value; });
+    document.getElementById('fontSize').addEventListener('change', (e)=>{ document.getElementById('editor').style.fontSize = e.target.value + 'px'; });
+
+    document.getElementById('btnExportEditorHTML').addEventListener('click', ()=>{ const html=document.getElementById('editor').innerHTML; const full='<!doctype html><html><head><meta charset="utf-8"><title>header</title></head><body>'+html+'</body></html>'; download('header.html',full,'text/html'); });
+    document.getElementById('btnCopyHTML').addEventListener('click', ()=>{ navigator.clipboard.writeText(document.getElementById('editor').innerHTML).then(()=>alert('Header copied')) });
+    document.getElementById('applyHeaderToTable').addEventListener('click', ()=>{ // apply styles to table header
+      const headerEls = headerRow.querySelectorAll('th'); const editor = document.getElementById('editor'); headerEls.forEach(h=>{ h.style.color = window.getComputedStyle(editor).color; h.style.background = window.getComputedStyle(editor).backgroundColor || 'transparent'; h.style.fontSize = window.getComputedStyle(editor).fontSize; h.style.fontWeight = '700'; }); });
+
+    // Calculations & operations
+    function getNumericValues(key){ return rows.map(r=>{ const v=r[key]; return (v==='' || v==null || isNaN(Number(v)))? null : Number(v); }).filter(v=>v!==null); }
+    document.getElementById('btnSum').addEventListener('click', ()=>{ const nums = getNumericValues('num'); const sum = nums.reduce((s,n)=>s+n,0); showCalc(`Sum = ${sum}`); });
+    document.getElementById('btnAvg').addEventListener('click', ()=>{ const nums = getNumericValues('num'); const avg = nums.length? (nums.reduce((s,n)=>s+n,0)/nums.length).toFixed(2) : 0; showCalc(`Average = ${avg}`); });
+    document.getElementById('btnMin').addEventListener('click', ()=>{ const nums = getNumericValues('num'); const min = nums.length? Math.min(...nums) : 0; showCalc(`Min = ${min}`); });
+    document.getElementById('btnMax').addEventListener('click', ()=>{ const nums = getNumericValues('num'); const max = nums.length? Math.max(...nums) : 0; showCalc(`Max = ${max}`); });
+
+    function showCalc(txt){ document.getElementById('calcResult').innerText = txt; document.getElementById('summaryRow').innerText = txt || (rows.length? `${rows.length} rows — ready.` : '0 rows — ready.'); }
+
+    document.getElementById('btnApplyOp').addEventListener('click', ()=>{
+      const op = document.getElementById('operator').value;
+      const operandRaw = document.getElementById('operand').value;
+      if(operandRaw.trim()===''){ alert('Enter an operand number'); return; }
+      const operand = Number(operandRaw);
+      const newCol = document.getElementById('newColName').value.trim();
+      // apply operation row-wise
+      rows.forEach((r,idx)=>{
+        const val = (r.num === '' || r.num==null || isNaN(Number(r.num))) ? null : Number(r.num);
+        let result = '';
+        if(val===null){ result = '' } else {
+          if(op==='add') result = val + operand;
+          else if(op==='sub') result = val - operand;
+          else if(op==='mul') result = val * operand;
+          else if(op==='div') result = operand===0 ? 'NaN' : val / operand;
+        }
+        if(newCol){ r[newCol] = result; } else { r.num = result; }
       });
+      // if new column, add header
+      if(newCol){ const th = document.createElement('th'); th.innerText = newCol; // insert before Image/Actions
+        headerRow.insertBefore(th, headerRow.children[7]); // position before Image
+        // update render to include new column (contenteditable)
+        renderTableWithExtraColumn(newCol);
+      } else { renderTable(); }
+      updateSummary();
     });
 
-    document.getElementById('btnExportEditorHTML').addEventListener('click', ()=>{
-      const html=document.getElementById('editor').innerHTML;
-      const full='<!doctype html><html><head><meta charset="utf-8"><title>header</title></head><body>'+html+'</body></html>';
-      download('header.html',full,'text/html');
-    });
-    document.getElementById('btnCopyHTML').addEventListener('click', ()=>{ navigator.clipboard.writeText(document.getElementById('editor').innerHTML).then(()=>alert('Header HTML copied to clipboard')) });
+    function renderTableWithExtraColumn(col){ dataTableBody.innerHTML=''; rows.forEach((r,i)=>{ const tr=document.createElement('tr'); const extra = r[col] !== undefined ? r[col] : ''; tr.innerHTML = `\
+      <td>${i+1}</td>\
+      <td contenteditable='true' data-key='name'>${escapeHtml(r.name)}</td>\
+      <td contenteditable='true' data-key='num'>${r.num !== '' ? escapeHtml(r.num) : ''}</td>\
+      <td contenteditable='true' data-key='dt'>${escapeHtml(r.dt)}</td>\
+      <td contenteditable='true' data-key='sel'>${escapeHtml(r.sel)}</td>\
+      <td contenteditable='true' data-key='notes'>${escapeHtml(r.notes)}</td>\
+      <td contenteditable='true' data-key='tag'>${escapeHtml(r.tag)}</td>\
+      <td contenteditable='true' data-key-extra='${escapeHtml(col)}'>${escapeHtml(extra)}</td>\
+      <td>${r.img ? `<img src="${r.img}" class="thumb" />` : ''} <button data-action='remove' data-i='${i}'>Delete</button></td>`; dataTableBody.appendChild(tr); }); }
 
-    document.getElementById('loadHTMLFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const txt=await f.text(); document.getElementById('editor').innerHTML = txt; e.target.value=null; });
+    function updateSummary(){ document.getElementById('summaryRow').innerText = rows.length? `${rows.length} rows — ready.` : '0 rows — ready.'; }
 
-    // Calculations
-    function getColumnNumbers(key){ return rows.map(r=>{ const v=r[key]; return (v==='' || v==null || isNaN(Number(v)))? null : Number(v); }).filter(v=>v!==null); }
-    document.getElementById('btnSum').addEventListener('click', ()=>{ const key=numericSelect.value; const nums=getColumnNumbers(key); const sum = nums.reduce((s,n)=>s+n,0); showCalc(`Sum = ${sum}`); });
-    document.getElementById('btnAvg').addEventListener('click', ()=>{ const key=numericSelect.value; const nums=getColumnNumbers(key); const avg = nums.length ? (nums.reduce((s,n)=>s+n,0)/nums.length).toFixed(2) : 0; showCalc(`Average = ${avg}`); });
-    document.getElementById('btnProduct').addEventListener('click', ()=>{ const key=numericSelect.value; const nums=getColumnNumbers(key); const product = nums.length ? nums.reduce((p,n)=>p*n,1) : 0; showCalc(`Product = ${product}`); });
-    document.getElementById('btnClearCalc').addEventListener('click', ()=>{ showCalc(''); document.getElementById('summaryRow').innerText = rows.length ? `${rows.length} rows — ready to calculate.` : 'No calculations yet.' });
-    function showCalc(text){ document.getElementById('calcResult').innerText=text; document.getElementById('summaryRow').innerText = text || (rows.length ? `${rows.length} rows — ready to calculate.` : 'No calculations yet.'); }
-
-    function updateNumericColumns(){ // populate numeric column selector from table keys (simple)
-      // For now keep 'num' mapped to Number column
-      // placeholder for dynamic detection
-    }
-
-    // init demo
-    rows.push({name:'Ali Khan',num:27,dt:'2025-09-04T10:00',sel:'A',notes:'Example row',tag:'demo',img:''}); renderTable(); updateNumericColumns();
-
-  </script></body>
-      </html>
+    // initial state: empty (no demo rows)
+    renderTable(); updateSummary();
+  </script>
+</body>
+</html>
