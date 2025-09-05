@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Data Builder — Form/Table + Style + Excel Export</title>
+  <title>Smart Data Sheet</title>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     :root{
@@ -12,85 +12,53 @@
       --card:#121a2b;
       --text:#e6edf3;
       --muted:#a0b3c5;
-      --radius:16px;
-      --base:16px;
+      --radius:12px;
       --font:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#0a0f1d,#0c1325 60%,#0f162e);color:var(--text);font:400 var(--base)/1.5 var(--font)}
-    header{position:sticky;top:0;z-index:20;background:rgba(18,26,43,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
-    .wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px}
-    .brand{font-weight:800;letter-spacing:.3px;font-size:20px}
-    .brand strong{color:var(--primary)}
-    .layout{max-width:1200px;margin:18px auto;display:grid;grid-template-columns:310px 1fr;gap:16px;padding:0 16px}
-    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    h2,h3{margin:0 0 10px 0;font-weight:700}
-    h2{font-size:clamp(18px,1.6vw,22px)}
-    h3{font-size:clamp(16px,1.4vw,18px);color:var(--muted)}
-    label{font-size:14px;color:var(--muted)}
-    input,select,textarea,button{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#0c1426;color:var(--text);outline:none}
-    textarea{min-height:70px}
-    button{cursor:pointer;background:var(--primary);border-color:transparent;font-weight:700}
-    button.ghost{background:transparent;color:var(--text);border-color:rgba(255,255,255,.15)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .stack{display:flex;flex-direction:column;gap:8px}
-    .pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.12)}
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px}
-    .muted{color:var(--muted);font-size:13px}
-    .table{width:100%;border-collapse:separate;border-spacing:0 8px}
-    .table th{font-size:13px;color:var(--muted);text-align:left;padding:6px 8px}
-    .table td{background:#0b1223;border:1px solid rgba(255,255,255,.06);padding:8px;border-right:none;border-left:none}
-    .table tr td:first-child{border-top-left-radius:10px;border-bottom-left-radius:10px;border-left:1px solid rgba(255,255,255,.06)}
-    .table tr td:last-child{border-top-right-radius:10px;border-bottom-right-radius:10px;border-right:1px solid rgba(255,255,255,.06)}
-    .danger{background:#ef4444}
-    .success{background:#16a34a}
-    .info{background:#0ea5e9}
-    .hidden{display:none}
-    .divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0}
+    body{margin:0;background:#0b1020;color:var(--text);font:15px var(--font);}
+    header{background:#121a2b;padding:12px;font-weight:700;font-size:18px;color:var(--text);}
+    main{display:grid;grid-template-columns:300px 1fr;gap:16px;padding:16px;max-width:1300px;margin:auto;}
+    .card{background:#121a2b;border-radius:var(--radius);padding:16px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+    h2{margin:0 0 10px 0;font-size:17px;}
+    label{font-size:14px;color:var(--muted);}
+    input,select,button{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0c1426;color:var(--text);}
+    button{cursor:pointer;font-weight:600;background:var(--primary);border:none;}
+    button.danger{background:#ef4444;}
+    button.success{background:#16a34a;}
+    .stack{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+    table{width:100%;border-collapse:collapse;margin-top:10px;}
+    th,td{padding:8px;text-align:left;border:1px solid rgba(255,255,255,0.1);}
+    th{font-weight:bold;background:#1d2a4d;color:#fff;}
+    tfoot td{font-weight:bold;background:#0e1a33;color:#ffd700;}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <div class="brand">📊 <strong>Data Builder</strong> — No-code mini studio</div>
-      <div class="pill">Auto save (Local browser storage)</div>
-    </div>
-  </header>
-
-  <main class="layout">
-    <section class="card" id="sidebar">
-      <h2>Create Schema (Columns)</h2>
+  <header>📊 Smart Data Sheet</header>
+  <main>
+    <!-- Sidebar -->
+    <section class="card">
+      <h2>Create Column</h2>
       <div class="stack">
-        <label>Column name</label>
-        <input id="colName" placeholder="Example: Name, Amount, Date" />
+        <label>Column Name</label>
+        <input id="colName" placeholder="e.g. Amount, Name" />
         <label>Type</label>
         <select id="colType">
           <option value="text">Text</option>
           <option value="number">Number</option>
           <option value="date">Date</option>
-          <option value="select">Select (Options)</option>
-          <option value="boolean">Yes/No</option>
         </select>
-        <div id="optionsWrap" class="hidden">
-          <label>Options (comma separated)</label>
-          <input id="colOptions" placeholder="Example: Pending, Done, Cancelled" />
-        </div>
         <button id="addColBtn">➕ Add Column</button>
-        <div class="muted">Current columns: <span id="schemaCount">0</span></div>
-        <div class="divider"></div>
       </div>
 
       <h2>Heading Style</h2>
       <div class="stack">
         <label>Heading Color</label>
-        <input type="color" id="headingColor" value="#ffffff" />
+        <input type="color" id="headingColor" value="#ffffff"/>
+        <label>Background Color</label>
+        <input type="color" id="headingBg" value="#1d2a4d"/>
         <label>Font Size (px)</label>
-        <input type="number" id="headingSize" min="14" max="40" value="20" />
-        <div class="toolbar">
-          <button id="toggleBold">Bold</button>
-        </div>
+        <input type="number" id="headingSize" min="12" max="28" value="16"/>
       </div>
-      <div class="divider"></div>
 
       <h2>Math Operations</h2>
       <div class="stack">
@@ -98,270 +66,158 @@
         <select id="mathColumn"></select>
         <label>Operation</label>
         <select id="mathOp">
-          <option value="add">Addition (+)</option>
-          <option value="sub">Subtraction (−)</option>
-          <option value="mul">Multiplication (×)</option>
-          <option value="div">Division (÷)</option>
+          <option value="sum">Total (Auto)</option>
+          <option value="add">+ Addition</option>
+          <option value="sub">- Subtraction</option>
+          <option value="mul">× Multiplication</option>
+          <option value="div">÷ Division</option>
+          <option value="perc">% Percentage</option>
         </select>
-        <input type="number" id="mathValue" placeholder="Enter number" />
+        <input type="number" id="mathValue" placeholder="Enter value (optional)" />
         <button id="applyMath">Apply</button>
+        <div id="mathResult" style="margin-top:8px;font-weight:bold;color:#0ea5e9"></div>
       </div>
-      <div class="divider"></div>
 
-      <h2>Import / Export</h2>
-      <div class="toolbar">
+      <h2>Export / Import</h2>
+      <div class="stack">
         <button id="exportCSV">Export CSV</button>
         <button id="exportXLSX">Export Excel</button>
         <button id="exportJSON">Export JSON</button>
-      </div>
-      <div class="toolbar">
-        <input type="file" id="importJSON" accept="application/json" />
-        <button class="info" id="clearAll">🔄 New Project</button>
+        <input type="file" id="importJSON" accept="application/json"/>
       </div>
     </section>
 
+    <!-- Main Content -->
     <section class="card">
-      <h2>Data Entry Form</h2>
+      <h2>Data Entry</h2>
       <form id="dataForm" class="stack"></form>
-      <div class="toolbar">
-        <button class="success" id="addRow">➕ Add Record</button>
-        <button class="ghost" id="printView">🖨️ Print / PDF</button>
-      </div>
-      <div class="divider"></div>
+      <button class="success" id="addRow">➕ Add Record</button>
 
       <h2>Records</h2>
-      <div class="muted">Double click any cell to edit directly.</div>
-      <table class="table" id="dataTable"></table>
+      <table id="dataTable"></table>
     </section>
   </main>
 
-  <style id="userCss"></style>
   <script>
-    let schema = JSON.parse(localStorage.getItem('db_schema') || '[]');
-    let data = JSON.parse(localStorage.getItem('db_data') || '[]');
-    const el = id => document.getElementById(id);
-    const save = () => {
-      localStorage.setItem('db_schema', JSON.stringify(schema));
-      localStorage.setItem('db_data', JSON.stringify(data));
-      el('schemaCount').textContent = schema.length;
-    };
+    let schema = [];
+    let data = [];
 
+    const el = id => document.getElementById(id);
+
+    function save(){localStorage.setItem("sheet_schema",JSON.stringify(schema));localStorage.setItem("sheet_data",JSON.stringify(data));}
+    function load(){schema=JSON.parse(localStorage.getItem("sheet_schema")||"[]");data=JSON.parse(localStorage.getItem("sheet_data")||"[]");}
+
+    // Render Form
     function renderForm(){
-      const form = el('dataForm');
-      form.innerHTML = '';
-      if(schema.length === 0){
-        const hint = document.createElement('div');
-        hint.className = 'muted';
-        hint.textContent = 'First create columns on the left, then form will appear here.';
-        form.appendChild(hint);
-        return;
-      }
-      schema.forEach(col => {
-        const wrap = document.createElement('div');
-        wrap.className = 'stack';
-        const label = document.createElement('label');
-        label.textContent = col.name + ' (' + col.type + ')';
-        wrap.appendChild(label);
-        let input;
-        switch(col.type){
-          case 'number': input = document.createElement('input'); input.type = 'number'; break;
-          case 'date': input = document.createElement('input'); input.type = 'date'; break;
-          case 'select':
-            input = document.createElement('select');
-            (col.options||[]).forEach(opt=>{
-              const o=document.createElement('option');o.value=o.textContent=opt.trim();input.appendChild(o);
-            });
-            break;
-          case 'boolean':
-            input = document.createElement('select');
-            ['Yes','No'].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;input.appendChild(o)});
-            break;
-          default:
-            input = document.createElement('input'); input.type = 'text';
-        }
-        input.name = col.name;
-        wrap.appendChild(input);
-        form.appendChild(wrap);
+      const form = el("dataForm"); form.innerHTML="";
+      schema.forEach(col=>{
+        const wrap=document.createElement("div");wrap.className="stack";
+        const label=document.createElement("label");label.textContent=col.name+" ("+col.type+")";
+        const input=document.createElement("input"); input.name=col.name;
+        input.type=col.type==="number"?"number":col.type==="date"?"date":"text";
+        wrap.appendChild(label); wrap.appendChild(input); form.appendChild(wrap);
       });
     }
 
+    // Render Table
     function renderTable(){
-      const table = el('dataTable');
-      table.innerHTML = '';
-      const thead = document.createElement('thead');
-      const hr = document.createElement('tr');
-      schema.forEach(col=>{
-        const th=document.createElement('th'); th.textContent=col.name; hr.appendChild(th);
+      const table=el("dataTable"); table.innerHTML="";
+      if(schema.length===0){table.textContent="Add columns first.";return;}
+      const thead=document.createElement("thead"); const tr=document.createElement("tr");
+      schema.forEach(c=>{
+        const th=document.createElement("th"); th.textContent=c.name;
+        th.style.color=el("headingColor").value;
+        th.style.backgroundColor=el("headingBg").value;
+        th.style.fontSize=el("headingSize").value+"px";
+        tr.appendChild(th);
       });
-      const thAct = document.createElement('th'); thAct.textContent='Actions'; hr.appendChild(thAct);
-      thead.appendChild(hr); table.appendChild(thead);
-      const tbody = document.createElement('tbody');
-      data.forEach((row, idx)=>{
-        const tr=document.createElement('tr');
-        schema.forEach(col=>{
-          const td=document.createElement('td');
-          td.contentEditable = true;
-          td.dataset.col = col.name;
-          td.dataset.index = idx;
-          td.textContent = row[col.name] ?? '';
-          td.addEventListener('blur', e=>{
-            const i = +e.target.dataset.index;
-            const c = e.target.dataset.col;
-            data[i][c] = e.target.textContent;
-            save();
-          });
+      tr.appendChild(document.createElement("th")).textContent="Actions";
+      thead.appendChild(tr); table.appendChild(thead);
+
+      const tbody=document.createElement("tbody");
+      data.forEach((row,i)=>{
+        const tr=document.createElement("tr");
+        schema.forEach(c=>{
+          const td=document.createElement("td");
+          td.contentEditable=true; td.textContent=row[c.name]||"";
+          td.onblur=()=>{row[c.name]=td.textContent;save();};
           tr.appendChild(td);
         });
-        const tdAct=document.createElement('td');
-        const delBtn=document.createElement('button'); delBtn.textContent='Delete'; delBtn.className='danger';
-        delBtn.onclick=()=>{data.splice(idx,1); save(); renderTable();};
-        tdAct.appendChild(delBtn);
-        tr.appendChild(tdAct);
+        const tdAct=document.createElement("td");
+        const del=document.createElement("button");del.textContent="Delete";del.className="danger";
+        del.onclick=()=>{data.splice(i,1);save();renderTable();};
+        tdAct.appendChild(del);tr.appendChild(tdAct);
         tbody.appendChild(tr);
       });
       table.appendChild(tbody);
+
+      // Summary row
+      const tfoot=document.createElement("tfoot"); const sumTr=document.createElement("tr");
+      schema.forEach(c=>{
+        const td=document.createElement("td");
+        if(c.type==="number"){
+          const total=data.reduce((s,r)=>s+(parseFloat(r[c.name])||0),0);
+          td.textContent="Total: "+total;
+        }
+        sumTr.appendChild(td);
+      });
+      sumTr.appendChild(document.createElement("td")); tfoot.appendChild(sumTr); table.appendChild(tfoot);
+
+      refreshMathColumns();
     }
 
-    function addColumn(){
-      const name = el('colName').value.trim();
-      const type = el('colType').value;
-      if(!name){ alert('Column name is required'); return; }
-      let col = {name, type};
-      if(type==='select'){
-        const opts = el('colOptions').value.split(',').map(s=>s.trim()).filter(Boolean);
-        col.options = opts;
-      }
-      schema.push(col);
-      el('colName').value=''; el('colOptions').value=''; el('colType').value='text'; el('optionsWrap').classList.add('hidden');
-      save(); renderForm(); renderTable(); refreshMathColumns();
-    }
+    // Add column
+    el("addColBtn").onclick=()=>{
+      const name=el("colName").value.trim(); if(!name) return alert("Enter column name");
+      schema.push({name,type:el("colType").value});
+      el("colName").value=""; save(); renderForm(); renderTable();
+    };
 
-    el('colType').addEventListener('change', () => {
-      el('optionsWrap').classList.toggle('hidden', el('colType').value !== 'select');
-    });
-    el('addColBtn').addEventListener('click', addColumn);
-
-    el('addRow').addEventListener('click', (e)=>{
+    // Add row
+    el("addRow").onclick=e=>{
       e.preventDefault();
-      if(schema.length===0){ alert('Add columns first'); return; }
-      const form = el('dataForm');
-      const row = {};
-      schema.forEach(col=>{
-        const input = form.querySelector(`[name="${CSS.escape(col.name)}"]`);
-        row[col.name] = input ? input.value : '';
-      });
-      data.push(row);
-      save(); renderTable();
-      form.reset();
-    });
+      const form=el("dataForm"); const row={};
+      schema.forEach(c=>{const input=form.querySelector(`[name="${c.name}"]`);row[c.name]=input.value;});
+      data.push(row); save(); renderTable(); form.reset();
+    };
 
-    // Export CSV
-    function exportCSV(){
-      if(schema.length===0){ alert('No columns'); return; }
-      const cols = schema.map(c=>c.name);
-      const lines = [cols.map(csvCell).join(',')];
-      data.forEach(r=>{
-        const line = cols.map(c=>csvCell(r[c] ?? ''));
-        lines.push(line.join(','));
-      });
-      const blob = new Blob(["\ufeff"+lines.join('\n')], {type:'text/csv;charset=utf-8;'});
-      download(blob, 'data.csv');
-    }
-    function csvCell(v){
-      const s = String(v).replace(/"/g,'""');
-      return '"'+s+'"';
-    }
+    // Export / Import
+    function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
+    el("exportCSV").onclick=()=>{
+      const cols=schema.map(c=>c.name); const rows=data.map(r=>cols.map(c=>r[c]||""));
+      const csv=[cols.join(","),...rows.map(r=>r.join(","))].join("\n");
+      download(new Blob([csv],{type:"text/csv"}),"data.csv");
+    };
+    el("exportXLSX").onclick=()=>{const ws=XLSX.utils.json_to_sheet(data);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Data");XLSX.writeFile(wb,"data.xlsx");};
+    el("exportJSON").onclick=()=>{download(new Blob([JSON.stringify({schema,data},null,2)],{type:"application/json"}),"project.json");};
+    el("importJSON").onchange=async e=>{
+      const f=e.target.files[0]; if(!f) return;
+      const obj=JSON.parse(await f.text()); schema=obj.schema||[]; data=obj.data||[];
+      save(); renderForm(); renderTable();
+    };
 
-    // Export Excel
-    function exportXLSX(){
-      try{
-        const ws = XLSX.utils.json_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Data');
-        XLSX.writeFile(wb, 'data.xlsx');
-      }catch(e){
-        alert('XLSX library not loaded. Use CSV export instead.');
-      }
-    }
-
-    // Export JSON
-    function exportJSON(){
-      const blob = new Blob([JSON.stringify({schema, data}, null, 2)], {type:'application/json'});
-      download(blob, 'project.json');
-    }
-    el('importJSON').addEventListener('change', async (e)=>{
-      const file = e.target.files[0]; if(!file) return;
-      const text = await file.text();
-      try{
-        const obj = JSON.parse(text);
-        schema = Array.isArray(obj.schema) ? obj.schema : [];
-        data = Array.isArray(obj.data) ? obj.data : [];
-        save(); renderForm(); renderTable(); refreshMathColumns();
-      }catch(err){ alert('Invalid JSON'); }
-      e.target.value='';
-    });
-
-    el('printView').addEventListener('click', ()=>{ window.print(); });
-
-    function download(blob, filename){
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url), 1000);
-    }
-
-    el('clearAll').addEventListener('click', ()=>{
-      if(confirm('Start new project? Current data will be erased.')){
-        schema=[]; data=[]; save(); renderForm(); renderTable(); refreshMathColumns();
-      }
-    });
-
-    el('exportCSV').addEventListener('click', exportCSV);
-    el('exportXLSX').addEventListener('click', exportXLSX);
-    el('exportJSON').addEventListener('click', exportJSON);
-
-    // Heading styling
-    const brand = document.querySelector('.brand');
-    el('headingColor').addEventListener('input', e=>{
-      brand.style.color = e.target.value;
-    });
-    el('headingSize').addEventListener('input', e=>{
-      brand.style.fontSize = e.target.value+'px';
-    });
-    let isBold=false;
-    el('toggleBold').addEventListener('click', ()=>{
-      isBold=!isBold;
-      brand.style.fontWeight = isBold?'bold':'normal';
-    });
-
-    // Math Operations
+    // Math
     function refreshMathColumns(){
-      const sel = el('mathColumn');
-      sel.innerHTML = '';
-      schema.filter(c=>c.type==='number').forEach(c=>{
-        const o=document.createElement('option');
-        o.value=c.name; o.textContent=c.name;
-        sel.appendChild(o);
+      const sel=el("mathColumn"); sel.innerHTML="";
+      schema.filter(c=>c.type==="number").forEach(c=>{
+        const o=document.createElement("option");o.value=c.name;o.textContent=c.name;sel.appendChild(o);
       });
     }
-    el('applyMath').addEventListener('click', ()=>{
-      const col = el('mathColumn').value;
-      const op = el('mathOp').value;
-      const val = parseFloat(el('mathValue').value);
-      if(!col || isNaN(val)){ alert('Select column and enter number'); return; }
-      data.forEach(r=>{
-        let n = parseFloat(r[col]);
-        if(isNaN(n)) return;
-        if(op==='add') n+=val;
-        if(op==='sub') n-=val;
-        if(op==='mul') n*=val;
-        if(op==='div' && val!==0) n/=val;
-        r[col]=n;
-      });
-      save(); renderTable();
-    });
+    el("applyMath").onclick=()=>{
+      const col=el("mathColumn").value; if(!col) return;
+      const op=el("mathOp").value; const val=parseFloat(el("mathValue").value)||0;
+      const total=data.reduce((s,r)=>s+(parseFloat(r[col])||0),0);
+      let result=total;
+      if(op==="add") result+=val;
+      if(op==="sub") result-=val;
+      if(op==="mul") result*=val;
+      if(op==="div"&&val!==0) result/=val;
+      if(op==="perc"&&val!==0) result=(total/val)*100;
+      el("mathResult").textContent="Result: "+result;
+    };
 
-    save(); renderForm(); renderTable(); refreshMathColumns();
+    // Init
+    load(); renderForm(); renderTable();
   </script>
 </body>
-  </html>
+</html>
