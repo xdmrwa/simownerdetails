@@ -1,576 +1,274 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Data Sheet — Full</title>
-  <!-- XLSX library for real .xlsx export -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Builder — Styled Export</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-style@0.8.13/dist/xlsx.full.min.js"></script>
   <style>
     :root{
-      --bg:#071026; --card:#0e1726; --muted:#9fb2c7; --text:#e6eef6;
-      --accent:#1fb6ff; --success:#16a34a; --danger:#ef4444;
-      --radius:12px; --pad:12px; --font:Inter,system-ui,Segoe UI,Roboto,Arial;
+      --primary:#2563eb;
+      --bg:#0b1020;
+      --card:#121a2b;
+      --text:#e6edf3;
+      --muted:#a0b3c5;
+      --radius:16px;
+      --base:16px;
+      --font:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#041122 0%,#071026 100%);color:var(--text);font-family:var(--font);font-size:14px}
-    header{background:linear-gradient(90deg,#071226,#0b1730);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,0.03)}
-    header .brand{font-weight:700;display:flex;gap:10px;align-items:center}
-    header .pill{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
-    main{max-width:1200px;margin:18px auto;padding:18px;display:grid;grid-template-columns:340px 1fr;gap:16px}
-    .card{background:var(--card);border-radius:var(--radius);padding:14px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
-    h3{margin:0 0 10px 0;font-size:16px}
-    label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
-    input[type="text"],input[type="number"],input[type="color"],select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:var(--text);outline:none}
-    input[type="range"]{width:100%}
-    button{padding:8px 10px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#022;cursor:pointer;font-weight:700}
-    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+    body{margin:0;background:linear-gradient(180deg,#0a0f1d,#0c1325 60%,#0f162e);color:var(--text);font:400 var(--base)/1.5 var(--font)}
+    header{position:sticky;top:0;z-index:20;background:rgba(18,26,43,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:14px}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .brand strong{color:var(--primary)}
+    .layout{max-width:1200px;margin:18px auto;display:grid;grid-template-columns:310px 1fr;gap:16px;padding:0 16px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h2{margin:0 0 10px 0;font-weight:700;font-size:18px}
+    h3{margin:0 0 10px 0;font-weight:600;font-size:16px;color:var(--muted)}
+    label{font-size:14px;color:var(--muted)}
+    input,select,textarea,button{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#0c1426;color:var(--text);outline:none}
+    button{cursor:pointer;background:var(--primary);border-color:transparent;font-weight:700}
+    button.ghost{background:transparent;color:var(--text);border-color:rgba(255,255,255,.15)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .stack{display:flex;flex-direction:column;gap:8px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px}
     .muted{color:var(--muted);font-size:13px}
-    .stack{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-    .row{display:flex;gap:8px}
-    .row > *{flex:1}
-    .toolbar{display:flex;gap:8px;flex-wrap:wrap}
-    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
-    thead th{position:sticky;top:0;padding:10px;text-align:left;z-index:3}
-    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);vertical-align:middle}
-    tbody tr:nth-child(even){background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
-    .thumb{max-height:40px;border-radius:6px}
-    tfoot td{padding:10px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted)}
-    .small{font-size:13px;color:var(--muted)}
-    .divider{height:1px;background:rgba(255,255,255,0.03);margin:12px 0}
-    .flex-between{display:flex;justify-content:space-between;align-items:center;gap:8px}
-    @media (max-width:980px){main{grid-template-columns:1fr}}
+    .table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    .table th{font-size:14px;color:#fff;text-align:left;padding:6px 8px;background:#2563eb;font-weight:bold}
+    .table td{background:#0b1223;border:1px solid rgba(255,255,255,.06);padding:8px}
+    .danger{background:#ef4444}
+    .success{background:#16a34a}
+    .info{background:#0ea5e9}
+    .hidden{display:none}
+    .divider{height:1px;background:rgba(255,255,255,.08);margin:10px 0}
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">📊 <span style="color:var(--accent)">Smart</span> Data Sheet</div>
-    <div class="flex-between" style="gap:12px">
-      <div class="pill">Auto-save: browser local storage</div>
-      <div class="small">Format: CSV / XLSX / JSON</div>
+    <div class="wrap">
+      <div class="brand">📊 <strong>Data Builder</strong> — Styled Export</div>
     </div>
   </header>
 
-  <main>
-    <!-- Sidebar: controls -->
+  <main class="layout">
     <section class="card" id="sidebar">
-      <h3>1 — Add Column</h3>
+      <h2>Create Schema (Columns)</h2>
       <div class="stack">
         <label>Column name</label>
-        <input id="colName" placeholder="e.g. Name, Amount, Date, Email" />
+        <input id="colName" placeholder="Example: Name, Amount, Date" />
         <label>Type</label>
         <select id="colType">
-          <option value="text">Text (default)</option>
+          <option value="text">Text</option>
           <option value="number">Number</option>
           <option value="date">Date</option>
-          <option value="email">Email</option>
-          <option value="select">Select (comma separated options)</option>
-          <option value="boolean">Yes / No</option>
+          <option value="select">Select (Options)</option>
+          <option value="boolean">Yes/No</option>
         </select>
-        <div id="colOptionsWrap" class="stack hidden">
+        <div id="optionsWrap" class="hidden">
           <label>Options (comma separated)</label>
-          <input id="colOptions" placeholder="e.g. Pending, Done, Cancelled" />
+          <input id="colOptions" placeholder="Example: Pending, Done, Cancelled" />
         </div>
-
+        <button id="addColBtn">➕ Add Column</button>
+        <div class="muted">Current columns: <span id="schemaCount">0</span></div>
         <div class="divider"></div>
-        <h3>Heading Style (for this column)</h3>
-        <div class="stack">
-          <label><input type="checkbox" id="colBold" /> <span class="small">Bold heading</span></label>
-          <label>Heading text color</label>
-          <input type="color" id="colColor" value="#ffffff" />
-          <label>Heading background color</label>
-          <input type="color" id="colBg" value="#1d2a4d" />
-          <label>Heading font size (px)</label>
-          <input type="number" id="colSize" min="12" max="28" value="14" />
-        </div>
-
-        <div class="row">
-          <button id="addColBtn">➕ Add Column</button>
-          <button id="resetColumns" class="ghost">Reset Columns</button>
-        </div>
-        <div class="small">Columns: <span id="schemaCount">0</span></div>
       </div>
 
-      <div class="divider"></div>
-      <h3>2 — Heading Edit</h3>
-      <div class="stack">
-        <label>Select column to edit heading style</label>
-        <select id="editColumn"></select>
-        <div class="row">
-          <button id="applyHeading">Apply style</button>
-          <button id="resetHeading" class="ghost">Reset</button>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-      <h3>3 — Math / Calculations</h3>
-      <div class="stack">
-        <label>Select numeric column (auto-detect numbers too)</label>
-        <select id="mathColumn"></select>
-        <div class="row">
-          <select id="mathOp">
-            <option value="none">No operation — simple mode</option>
-            <option value="add">Add (+)</option>
-            <option value="sub">Subtract (−)</option>
-            <option value="mul">Multiply (×)</option>
-            <option value="div">Divide (÷)</option>
-            <option value="perc">Percentage (%)</option>
-          </select>
-          <input id="mathValue" type="number" placeholder="value (optional)" />
-        </div>
-        <div class="row">
-          <button id="applyMath">Apply</button>
-          <button id="applyMathToRows" class="ghost">Apply to each row (create new column)</button>
-        </div>
-        <div class="small">Total / Avg / Min / Max for chosen column shown below.</div>
-        <div style="margin-top:8px" id="mathStats" class="small"></div>
-      </div>
-
-      <div class="divider"></div>
-      <h3>4 — Export / Project</h3>
+      <h2>Export</h2>
       <div class="toolbar">
         <button id="exportCSV">Export CSV</button>
         <button id="exportXLSX">Export Excel</button>
         <button id="exportJSON">Export JSON</button>
       </div>
-      <div style="margin-top:8px" class="toolbar">
-        <input id="importJSON" type="file" accept="application/json" />
-        <button id="newProject" class="danger">🆕 New Project</button>
+      <div class="toolbar">
+        <input type="file" id="importJSON" accept="application/json" />
+        <button class="info" id="clearAll">🔄 New Project</button>
       </div>
-      <div class="small" style="margin-top:8px">Tip: CSV/XLSX mirror current table contents exactly.</div>
     </section>
 
-    <!-- Main area: form + table -->
     <section class="card">
-      <h3>Data Entry</h3>
-      <div id="formHint" class="small muted">Create columns first. The form appears here.</div>
-      <form id="dataForm" class="stack" style="margin-top:8px"></form>
-
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button id="addRowBtn" class="success">➕ Add Record</button>
-        <button id="clearForm" class="ghost">Clear Form</button>
+      <h2>Data Entry Form</h2>
+      <form id="dataForm" class="stack"></form>
+      <div class="toolbar">
+        <button class="success" id="addRow">➕ Add Record</button>
+        <button class="ghost" id="printView">🖨️ Print / PDF</button>
       </div>
-
       <div class="divider"></div>
-      <h3>Records</h3>
-      <div class="small muted">Double-click a cell to edit; numeric-looking values are treated as numbers for calculations.</div>
-      <div style="overflow:auto;margin-top:10px">
-        <table id="dataTable"></table>
-      </div>
+
+      <h2>Records</h2>
+      <table class="table" id="dataTable"></table>
     </section>
   </main>
 
   <script>
-    // --- storage keys ---
-    const KEY_SCHEMA = 'sds_schema_v1';
-    const KEY_DATA = 'sds_data_v1';
-
-    // --- state ---
-    let schema = JSON.parse(localStorage.getItem(KEY_SCHEMA) || '[]'); // array of {name,type,options?,headingStyle:{}}
-    let data = JSON.parse(localStorage.getItem(KEY_DATA) || '[]');     // array of {colName: value, ...}
-
-    // --- helpers ---
+    let schema = JSON.parse(localStorage.getItem('db_schema') || '[]');
+    let data = JSON.parse(localStorage.getItem('db_data') || '[]');
     const el = id => document.getElementById(id);
-    const saveState = () => {
-      localStorage.setItem(KEY_SCHEMA, JSON.stringify(schema));
-      localStorage.setItem(KEY_DATA, JSON.stringify(data));
+    const save = () => {
+      localStorage.setItem('db_schema', JSON.stringify(schema));
+      localStorage.setItem('db_data', JSON.stringify(data));
       el('schemaCount').textContent = schema.length;
-      populateEditColumnSelect();
-      populateMathColumnSelect();
-    };
-    const isNumericString = s => {
-      if (s === null || s === undefined || s === '') return false;
-      return !isNaN(Number(String(s).replace(/,/g, '')));
     };
 
-    // --- UI renderers ---
     function renderForm(){
       const form = el('dataForm');
       form.innerHTML = '';
-      if(schema.length === 0){
-        el('formHint').style.display = 'block';
-        return;
-      }
-      el('formHint').style.display = 'none';
       schema.forEach(col => {
         const wrap = document.createElement('div');
         wrap.className = 'stack';
         const label = document.createElement('label');
         label.textContent = col.name + ' (' + col.type + ')';
-        const input = makeInputForCol(col);
-        input.name = col.name;
         wrap.appendChild(label);
+        let input;
+        switch(col.type){
+          case 'number': input = document.createElement('input'); input.type = 'number'; break;
+          case 'date': input = document.createElement('input'); input.type = 'date'; break;
+          case 'select':
+            input = document.createElement('select');
+            (col.options||[]).forEach(opt=>{
+              const o=document.createElement('option');o.value=o.textContent=opt.trim();input.appendChild(o);
+            });
+            break;
+          case 'boolean':
+            input = document.createElement('select');
+            ['Yes','No'].forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;input.appendChild(o)});
+            break;
+          default:
+            input = document.createElement('input'); input.type = 'text';
+        }
+        input.name = col.name;
         wrap.appendChild(input);
         form.appendChild(wrap);
       });
     }
 
-    function makeInputForCol(col){
-      let input;
-      switch(col.type){
-        case 'number':
-          input = document.createElement('input'); input.type='number'; break;
-        case 'date':
-          input = document.createElement('input'); input.type='date'; break;
-        case 'email':
-          input = document.createElement('input'); input.type='email'; break;
-        case 'select':
-          input = document.createElement('select');
-          (col.options || []).forEach(o => { const opt = document.createElement('option'); opt.value = o; opt.textContent = o; input.appendChild(opt); });
-          break;
-        case 'boolean':
-          input = document.createElement('select');
-          ['Yes','No'].forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;input.appendChild(opt)});
-          break;
-        default:
-          input = document.createElement('input'); input.type='text';
-      }
-      return input;
-    }
-
     function renderTable(){
       const table = el('dataTable');
       table.innerHTML = '';
-      if(schema.length === 0){ table.textContent = 'No columns yet.'; return; }
-      // head
-      const thead = document.createElement('thead'); const thr = document.createElement('tr');
-      schema.forEach((col, idx) => {
-        const th = document.createElement('th');
-        th.textContent = col.name;
-        // apply heading style if present
-        const s = col.headingStyle || {};
-        if(s.bg) th.style.background = s.bg;
-        if(s.color) th.style.color = s.color;
-        th.style.fontWeight = s.bold ? '700' : '600';
-        if(s.size) th.style.fontSize = (s.size)+'px';
-        thr.appendChild(th);
+      if(schema.length === 0) return;
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      schema.forEach(col=>{
+        const th=document.createElement('th'); th.textContent=col.name; hr.appendChild(th);
       });
-      const thAct = document.createElement('th'); thAct.textContent = 'Actions'; thr.appendChild(thAct);
-      thead.appendChild(thr); table.appendChild(thead);
-
-      // body
+      const thAct = document.createElement('th'); thAct.textContent='Actions'; hr.appendChild(thAct);
+      thead.appendChild(hr); table.appendChild(thead);
       const tbody = document.createElement('tbody');
-      data.forEach((row, rIdx) => {
-        const tr = document.createElement('tr');
-        schema.forEach(col => {
-          const td = document.createElement('td');
-          td.contentEditable = true;
-          td.dataset.col = col.name;
-          td.dataset.row = rIdx;
-          // show stored value
-          const v = row[col.name] ?? '';
-          td.textContent = v;
-          // on blur -> save (maintain numeric strings if typed)
-          td.addEventListener('blur', (e) => {
-            const val = e.target.textContent;
-            // If column type is number, try to coerce into number or keep empty
-            if(col.type === 'number'){
-              const n = val.trim() === '' ? '' : Number(String(val).replace(/,/g,'')); // simple conversion
-              row[col.name] = (n === '' || isNaN(n)) ? val : n;
-            } else {
-              // if user typed a numeric-like text, keep as-is but we'll treat it numeric for math automatically when needed
-              row[col.name] = val;
-            }
-            saveState();
-            renderTable(); // re-render to keep totals updated
-          });
+      data.forEach((row, idx)=>{
+        const tr=document.createElement('tr');
+        schema.forEach(col=>{
+          const td=document.createElement('td');
+          td.textContent = row[col.name] ?? '';
           tr.appendChild(td);
         });
-        // actions
-        const tdAct = document.createElement('td');
-        const del = document.createElement('button'); del.textContent = 'Delete'; del.style.background = 'linear-gradient(90deg,#ff7a7a,#ff4b4b)'; del.style.color='#021';
-        del.addEventListener('click', () => {
-          if(confirm('Delete this row?')){ data.splice(rIdx,1); saveState(); renderTable(); }
-        });
-        tdAct.appendChild(del);
+        const tdAct=document.createElement('td');
+        const delBtn=document.createElement('button'); delBtn.textContent='Delete'; delBtn.className='danger';
+        delBtn.onclick=()=>{data.splice(idx,1); save(); renderTable();};
+        tdAct.appendChild(delBtn);
         tr.appendChild(tdAct);
         tbody.appendChild(tr);
       });
       table.appendChild(tbody);
-
-      // footer: totals row (only one row) — we will display per numeric-like column
-      const tfoot = document.createElement('tfoot');
-      const ftr = document.createElement('tr');
-      schema.forEach(col => {
-        const td = document.createElement('td');
-        if(isColumnNumericLike(col.name)){
-          const nums = data.map(r => {
-            const v = r[col.name];
-            return (v === '' || v === null || v === undefined) ? 0 : (isNumericString(v) ? Number(String(v).replace(/,/g,'')) : 0);
-          });
-          const total = nums.reduce((s,n)=>s+n,0);
-          td.textContent = 'Total: ' + total;
-        }
-        ftr.appendChild(td);
-      });
-      // action footer cell blank
-      ftr.appendChild(document.createElement('td'));
-      tfoot.appendChild(ftr); table.appendChild(tfoot);
-
-      // update math stats display
-      updateMathStats();
     }
 
-    // --- Column helpers ---
     function addColumn(){
       const name = el('colName').value.trim();
       const type = el('colType').value;
-      if(!name) { alert('Column name required'); return; }
-      const col = { name, type };
-      if(type === 'select'){
-        const opts = (el('colOptions').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+      if(!name){ alert('Column name is required'); return; }
+      let col = {name, type};
+      if(type==='select'){
+        const opts = el('colOptions').value.split(',').map(s=>s.trim()).filter(Boolean);
         col.options = opts;
       }
-      // headingStyle from controls
-      col.headingStyle = {
-        bold: el('colBold').checked,
-        color: el('colColor').value,
-        bg: el('colBg').value,
-        size: Number(el('colSize').value) || 14
-      };
       schema.push(col);
-      // clear inputs
-      el('colName').value=''; el('colOptions').value=''; el('colBold').checked=false;
-      // persist and re-render
-      saveState(); renderForm(); renderTable();
+      el('colName').value=''; el('colOptions').value=''; el('colType').value='text'; el('optionsWrap').classList.add('hidden');
+      save(); renderForm(); renderTable();
     }
 
-    function resetColumns(){
-      if(!confirm('Reset all columns? This will remove all columns and data.')) return;
-      schema = []; data = []; saveState(); renderForm(); renderTable();
-    }
-
-    function populateEditColumnSelect(){
-      const sel = el('editColumn'); sel.innerHTML = '';
-      schema.forEach((c,i)=>{ const o = document.createElement('option'); o.value = i; o.textContent = c.name; sel.appendChild(o); });
-    }
-    function editHeadingApply(){
-      const idx = Number(el('editColumn').value);
-      if(isNaN(idx)) return alert('Select column to edit');
-      const col = schema[idx];
-      col.headingStyle = col.headingStyle || {};
-      // reuse controls values to apply
-      const color = el('colColor').value;
-      const bg = el('colBg').value;
-      const size = Number(el('colSize').value) || 14;
-      const bold = el('colBold').checked;
-      col.headingStyle.color = color; col.headingStyle.bg = bg; col.headingStyle.size = size; col.headingStyle.bold = bold;
-      saveState(); renderTable();
-    }
-    function resetHeading(){
-      const idx = Number(el('editColumn').value);
-      if(isNaN(idx)) return alert('Select column to reset');
-      schema[idx].headingStyle = { color:'#ffffff', bg:'#1d2a4d', size:14, bold:true };
-      saveState(); renderTable();
-    }
-
-    // --- math / stats ---
-    function populateMathColumnSelect(){
-      const sel = el('mathColumn'); sel.innerHTML = '';
-      // include all columns because numbers can be typed in any column
-      schema.forEach(c => { const o = document.createElement('option'); o.value = c.name; o.textContent = c.name + (c.type==='number' ? ' (number)' : ''); sel.appendChild(o); });
-      // If none selected, try to auto-select first numeric-like
-      if(sel.options.length && !sel.value) sel.value = sel.options[0].value;
-      updateMathStats();
-    }
-    function isColumnNumericLike(colName){
-      // treat column as numeric-like if at least one cell looks numeric OR column type === 'number'
-      const colDef = schema.find(s=>s.name === colName);
-      if(!colDef) return false;
-      if(colDef.type === 'number') return true;
-      // otherwise check data
-      for(const r of data){
-        if(isNumericString(r[colName])) return true;
-      }
-      return false;
-    }
-    function getColumnNumbers(colName){
-      const arr = [];
-      for(const r of data){
-        const v = r[colName];
-        if(isNumericString(v)) arr.push(Number(String(v).replace(/,/g,'')));
-      }
-      return arr;
-    }
-
-    function updateMathStats(){
-      const sel = el('mathColumn');
-      const stats = el('mathStats');
-      if(!sel || !sel.value){ stats.textContent = 'No column selected.'; return; }
-      const col = sel.value;
-      const nums = getColumnNumbers(col);
-      if(nums.length === 0){ stats.textContent = 'No numeric values in this column yet.'; return; }
-      const total = nums.reduce((s,n)=>s+n,0);
-      const avg = (total / nums.length);
-      const min = Math.min(...nums);
-      const max = Math.max(...nums);
-      stats.innerHTML = `Total: <strong>${total}</strong> &nbsp;&nbsp; Avg: <strong>${avg.toFixed(2)}</strong> &nbsp;&nbsp; Min: <strong>${min}</strong> &nbsp;&nbsp; Max: <strong>${max}</strong>`;
-    }
-
-    // apply math: shows computed result for total operations
-    function applyMathOperation(){
-      const col = el('mathColumn').value; if(!col) return alert('Choose column');
-      const op = el('mathOp').value;
-      const vRaw = el('mathValue').value;
-      const val = vRaw === '' ? null : Number(vRaw);
-      const nums = getColumnNumbers(col);
-      const total = nums.reduce((s,n)=>s+n,0);
-      let result = total;
-      if(op === 'none'){ updateMathStats(); el('mathResult').textContent = 'No operation selected — simple mode.'; return; }
-      if(nums.length === 0){ el('mathResult').textContent = 'No numeric values to operate on.'; return; }
-      switch(op){
-        case 'add': result = total + (val ?? 0); break;
-        case 'sub': result = total - (val ?? 0); break;
-        case 'mul': result = total * (val ?? 1); break;
-        case 'div': result = (val === 0) ? 'NaN (divide by 0)' : total / (val ?? 1); break;
-        case 'perc': result = (val === 0 || val === null) ? 'Invalid % value' : ((total * (val))/100); break;
-      }
-      el('mathResult').textContent = 'Result: ' + result;
-    }
-
-    // apply math row-wise and create a new column with results
-    function applyMathToRows(){
-      const col = el('mathColumn').value; if(!col) return alert('Choose column');
-      const op = el('mathOp').value;
-      const vRaw = el('mathValue').value;
-      const val = vRaw === '' ? null : Number(vRaw);
-      if(op === 'none') return alert('Choose an operation to apply to rows.');
-      // create new column name prompt
-      const newName = prompt('Enter new column name for results (will be added):', col + ' (calc)');
-      if(!newName) return;
-      // add column to schema as text/number
-      schema.push({ name: newName, type: 'number', headingStyle: { color:'#ffffff', bg:'#1d2a4d', size:14, bold:true }});
-      // compute per-row
-      data = data.map(row => {
-        const v = row[col];
-        const n = isNumericString(v) ? Number(String(v).replace(/,/g,'')) : 0;
-        let res = '';
-        switch(op){
-          case 'add': res = n + (val ?? 0); break;
-          case 'sub': res = n - (val ?? 0); break;
-          case 'mul': res = n * (val ?? 1); break;
-          case 'div': res = (val === 0) ? null : n / (val ?? 1); break;
-          case 'perc': res = (val === null) ? null : (n * (val))/100; break;
-        }
-        row[newName] = (res === null) ? '' : res;
-        return row;
-      });
-      saveState(); renderForm(); renderTable(); alert('New column added: ' + newName);
-    }
-
-    // --- Export / Import ---
-    function csvSafe(v){
-      if(v === null || v === undefined) return '""';
-      const s = String(v).replace(/"/g,'""');
-      return '"' + s + '"';
-    }
-    function exportCSV(){
-      if(schema.length === 0) return alert('No columns to export.');
-      const cols = schema.map(c=>c.name);
-      const rows = data.map(r => cols.map(c => csvSafe(r[c] ?? '')).join(','));
-      const csv = [cols.map(c=>csvSafe(c)).join(','), ...rows].join('\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'sheet.csv'; a.click();
-      setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
-    }
-    function exportXLSX(){
-      try{
-        const ws = XLSX.utils.json_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Data');
-        XLSX.writeFile(wb, 'sheet.xlsx');
-      }catch(e){
-        alert('XLSX export failed. Try CSV instead.');
-      }
-    }
-    function exportJSON(){
-      const blob = new Blob([JSON.stringify({ schema, data }, null, 2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'project.json'; a.click();
-      setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
-    }
-    function importJSONFile(file){
-      const reader = new FileReader();
-      reader.onload = e => {
-        try{
-          const obj = JSON.parse(e.target.result);
-          if(Array.isArray(obj.schema) && Array.isArray(obj.data)){
-            schema = obj.schema; data = obj.data;
-            saveState(); renderForm(); renderTable();
-            alert('Project imported.');
-          } else {
-            alert('Invalid JSON format: expected {schema:[], data:[]}.');
-          }
-        }catch(err){ alert('Invalid JSON file.'); }
-      };
-      reader.readAsText(file);
-    }
-
-    // new project
-    function newProject(){
-      if(!confirm('Start a new project? All columns and data will be cleared.')) return;
-      schema = []; data = []; saveState(); renderForm(); renderTable();
-    }
-
-    // --- events binding ---
-    el('colType').addEventListener('change', ()=>{
-      el('colOptionsWrap').classList.toggle('hidden', el('colType').value !== 'select');
+    el('colType').addEventListener('change', () => {
+      el('optionsWrap').classList.toggle('hidden', el('colType').value !== 'select');
     });
     el('addColBtn').addEventListener('click', addColumn);
-    el('resetColumns').addEventListener('click', resetColumns);
-    el('applyHeading').addEventListener('click', editHeadingApply);
-    el('resetHeading').addEventListener('click', resetHeading);
 
-    el('addRowBtn').addEventListener('click', (e)=>{
+    el('addRow').addEventListener('click', (e)=>{
       e.preventDefault();
-      if(schema.length === 0){ alert('Create columns first'); return; }
+      if(schema.length===0){ alert('Add columns first'); return; }
       const form = el('dataForm');
       const row = {};
-      schema.forEach(col => {
+      schema.forEach(col=>{
         const input = form.querySelector(`[name="${CSS.escape(col.name)}"]`);
-        if(!input){ row[col.name] = ''; return; }
-        let val = input.value;
-        // type-aware storage: if column type number and value is numeric, store as number
-        if(col.type === 'number' && val !== '') {
-          const maybe = Number(String(val).replace(/,/g,''));
-          row[col.name] = isNaN(maybe) ? val : maybe;
-        } else {
-          row[col.name] = val;
-        }
+        row[col.name] = input ? input.value : '';
       });
       data.push(row);
-      saveState(); renderTable(); form.reset();
+      save(); renderTable();
+      form.reset();
     });
-    el('clearForm').addEventListener('click', ()=>{ el('dataForm').reset(); });
 
-    el('mathColumn').addEventListener('change', updateMathStats);
-    el('mathValue').addEventListener('input', ()=>{ /* no-op */ });
-    el('applyMath').addEventListener('click', applyMathOperation);
-    el('applyMathToRows').addEventListener('click', applyMathToRows);
+    function exportCSV(){
+      const cols = schema.map(c=>c.name);
+      const lines = [cols.join(',')];
+      data.forEach(r=>{
+        const line = cols.map(c=>r[c] ?? '');
+        lines.push(line.join(','));
+      });
+      const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+      download(blob, 'data.csv');
+    }
+
+    function exportXLSX(){
+      const ws = XLSX.utils.json_to_sheet(data, {header: schema.map(c=>c.name)});
+      // Style headers
+      schema.forEach((c, i)=>{
+        const cell = ws[String.fromCharCode(65+i)+"1"]; // A1, B1, etc.
+        if(cell){
+          cell.s = {
+            font: { bold: true, color: { rgb: "FFFFFF" } },
+            fill: { fgColor: { rgb: "2563EB" } }
+          };
+        }
+      });
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Data');
+      XLSX.writeFile(wb, 'data.xlsx');
+    }
+
+    function exportJSON(){
+      const blob = new Blob([JSON.stringify({schema, data}, null, 2)], {type:'application/json'});
+      download(blob, 'project.json');
+    }
+
+    el('importJSON').addEventListener('change', async (e)=>{
+      const file = e.target.files[0]; if(!file) return;
+      const text = await file.text();
+      try{
+        const obj = JSON.parse(text);
+        schema = Array.isArray(obj.schema) ? obj.schema : [];
+        data = Array.isArray(obj.data) ? obj.data : [];
+        save(); renderForm(); renderTable();
+      }catch(err){ alert('Invalid JSON'); }
+      e.target.value='';
+    });
+
+    el('printView').addEventListener('click', ()=>{ window.print(); });
+
+    function download(blob, filename){
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    }
+
+    el('clearAll').addEventListener('click', ()=>{
+      if(confirm('Start new project? Current data will be erased.')){
+        schema=[]; data=[]; save(); renderForm(); renderTable();
+      }
+    });
 
     el('exportCSV').addEventListener('click', exportCSV);
     el('exportXLSX').addEventListener('click', exportXLSX);
     el('exportJSON').addEventListener('click', exportJSON);
-    el('importJSON').addEventListener('change', (e)=>{ const f = e.target.files[0]; if(f) importJSONFile(f); e.target.value=''; });
 
-    el('newProject').addEventListener('click', newProject);
-
-    // --- init ---
-    (function init(){
-      // load from storage
-      const s = localStorage.getItem(KEY_SCHEMA);
-      const d = localStorage.getItem(KEY_DATA);
-      if(s) schema = JSON.parse(s);
-      if(d) data = JSON.parse(d);
-      // ensure headingStyle defaults
-      schema.forEach(c => {
-        c.headingStyle = c.headingStyle || { bold:true, color:'#ffffff', bg:'#1d2a4d', size:14 };
-      });
-      saveState();
-      renderForm();
-      renderTable();
-      // periodic save (extra safety)
-      setInterval(()=>saveState(), 5000);
-    })();
+    save(); renderForm(); renderTable();
   </script>
 </body>
-</html>
+  </html>
